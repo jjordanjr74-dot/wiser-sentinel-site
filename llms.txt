@@ -1,0 +1,10 @@
+# WISER Reborn 2.6: Ultimate HazMat, Plume, CAMEO Reactivity & SDS Sentinel
+> Offline-First First Responder & Shop OSHA Chemical Intelligence Platform (ERG 2024 + NIOSH Pocket Guide + NOAA CAMEO + OSHA HazCom 2012 + FEMA ICS-208).
+
+## Capabilities
+- **62+ High-Frequency Substances**: Highway/Rail bulk tankers, industrial acids/bases/oxidizers, automotive shop chemicals, warehouse storage hazards, and CBRN/clandestine agents (Fentanyl, Sarin, VX, Mustard, Phosgene, HCN, Ricin, Anthrax).
+- **ERG 2024 Wind-Vector Plume & Staging Calculator (`/api/plume`)**: Live Open-Meteo wind integration for Pueblo, Colorado Springs, Cañon City, Fountain, Monument, Castle Rock, Trinidad, Walsenburg, La Junta, Salida + offline manual wind vectoring.
+- **NOAA CAMEO Binary Reactivity Engine (`/api/reactivity`)**: 18 chemical group rules + specific hypergolic/gas-generating pair detection.
+- **OSHA 16-Section SDS & FEMA ICS-208 Site Safety Plan (`/api/sds/{id}`, `/api/ics208/{id}`)**: Instant compliance & incident command print/PDF generation.
+- **100% Offline Apparatus PWA (`/sw.js`, `/manifest.json`, `/static/offline_db.json`)**: Operates in dead-cell zones with zero network dependency.
+- **WebMCP Agent Manifest**: `/api/tools.json`

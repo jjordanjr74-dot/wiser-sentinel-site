@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jjordanjr74-dot.github.io/wiser-sentinel-site/sitemap.xml

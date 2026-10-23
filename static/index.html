@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WISER 2.0 - Ultimate HazMat, SDS & Storage Sentinel</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/static/wiser_standalone.js" onerror="this.src='../static/wiser_standalone.js'"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .nfpa-diamond {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      transform: rotate(45deg);
+      border: 3px solid #0f172a;
+    }
+    .nfpa-box {
+      position: absolute;
+      width: 43px;
+      height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+    .nfpa-text { transform: rotate(-45deg); }
+  </style>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#dc2626" />
+  <style>
+    body.night-vision-mode {
+      background-color: #040000 !important;
+      color: #ff3b3b !important;
+      filter: sepia(100%) hue-rotate(310deg) saturate(450%) brightness(0.88);
+    }
+    @media print {
+      header, .no-print { display: none !important; }
+      body { background: #ffffff !important; color: #000000 !important; }
+      #sdsModal { position: static !important; background: #ffffff !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-slate-950">
+
+  <!-- Top Emergency Navbar -->
+  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 px-4 py-3 shadow-xl">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-amber-500 text-slate-950 p-2 rounded-xl font-black tracking-wider text-xl flex items-center shadow-lg shadow-amber-500/20">
+          <i data-lucide="shield-alert" class="w-6 h-6 mr-1.5 stroke-[2.5]"></i>
+          <span>WISER</span>
+          <span class="text-xs bg-slate-950 text-amber-400 px-2 py-0.5 rounded-md ml-1.5 font-bold uppercase tracking-normal">2.0 SENTINEL</span>
+        </div>
+        <div class="hidden md:block">
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">HazMat • SDS • NIOSH Pocket Guide • Safe Storage</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
+          OFFLINE CACHED
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <div class="bg-slate-900/80 backdrop-blur border-b border-slate-800 px-4 sticky top-[61px] z-40">
+    <div class="max-w-7xl mx-auto flex space-x-2 overflow-x-auto py-2.5">
+      <button onclick="switchTab('search')" id="tab-search" class="tab-btn px-4 py-2 rounded-xl font-black text-xs sm:text-sm flex items-center bg-amber-500 text-slate-950 shadow-md">
+        <i data-lucide="search" class="w-4 h-4 mr-1.5"></i> HazMat & SDS Search
+      </button>
+      <button onclick="switchTab('wizard')" id="tab-wizard" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i data-lucide="help-circle" class="w-4 h-4 mr-1.5"></i> Symptom & Odor Wizard
+      </button>
+      <button onclick="switchTab('storage')" id="tab-storage" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i data-lucide="boxes" class="w-4 h-4 mr-1.5"></i> Safe Storage & GHS Labels
+      </button>
+      <button onclick="switchTab('niosh')" id="tab-niosh" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i data-lucide="activity" class="w-4 h-4 mr-1.5"></i> NIOSH Pocket Limits
+      </button>
+      <button onclick="switchTab('reactivity')" id="tab-reactivity" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i data-lucide="flask-conical" class="w-4 h-4 mr-1.5"></i> Chemical Mixing Matrix
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+
+    <!-- TAB 1: FAST SEARCH & CATEGORY FILTERS -->
+    <section id="view-search" class="space-y-6">
+      <!-- Big Search Card -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden">
+        <label class="block text-xs font-black text-amber-400 uppercase tracking-widest mb-2.5">
+          Emergency HazMat & SDS Lookup (UN#, Name, CAS, Retail Brand)
+        </label>
+        <div class="relative">
+          <input type="text" id="search-input" onkeyup="handleSearch(event)" 
+                 placeholder="Type UN# (e.g. 1017, 3480), or Product (Brake Cleaner, Bleach, Lithium, Sarin)..." 
+                 class="w-full bg-slate-950 border-2 border-slate-700 focus:border-amber-500 rounded-2xl px-5 py-4 pl-12 text-base sm:text-lg font-bold text-white placeholder-slate-600 focus:outline-none transition shadow-inner">
+          <i data-lucide="search" class="w-6 h-6 text-slate-500 absolute left-4 top-4.5"></i>
+          <button onclick="performSearch()" class="absolute right-2.5 top-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 px-6 py-2.5 rounded-xl font-black text-xs sm:text-sm transition flex items-center shadow-md">
+            SEARCH
+          </button>
+        </div>
+        
+        <!-- Category Filter Pills -->
+        <div class="mt-4 flex flex-wrap gap-2 items-center text-xs font-bold">
+          <span class="text-slate-500 uppercase">Sector:</span>
+          <button onclick="filterCategory('')" id="cat-all" class="cat-pill bg-amber-500 text-slate-950 px-3 py-1 rounded-lg border border-amber-400">All Sectors</button>
+          <button onclick="filterCategory('Automotive')" id="cat-auto" class="cat-pill bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1 rounded-lg border border-slate-700">🚗 Automotive (AutoZone/O'Reilly)</button>
+          <button onclick="filterCategory('Retail/Consumer')" id="cat-retail" class="cat-pill bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1 rounded-lg border border-slate-700">🛒 Retail (Amazon/Walmart)</button>
+          <button onclick="filterCategory('Industrial')" id="cat-ind" class="cat-pill bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1 rounded-lg border border-slate-700">🏭 Industrial Rail/Chemical</button>
+          <button onclick="filterCategory('Warehouse')" id="cat-wh" class="cat-pill bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1 rounded-lg border border-slate-700">📦 Warehouse Logistics</button>
+          <button onclick="filterCategory('CBRN/Warfare')" id="cat-cbrn" class="cat-pill bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1 rounded-lg border border-slate-700">☣️ CBRN / Warfare</button>
+        </div>
+      </div>
+
+      <!-- Results Grid -->
+      <div id="results-area" class="space-y-4">
+        <div id="cards-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SYMPTOM & ODOR WIZARD -->
+    <section id="view-wizard" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-2xl font-black text-amber-400 mb-1 flex items-center">
+          <i data-lucide="help-circle" class="w-7 h-7 mr-2"></i> Field Triage & Symptom Wizard
+        </h2>
+        <p class="text-sm text-slate-400 mb-6">Designed for high-stress scene triage: select observed physical clues and victim symptoms to isolate the chemical:</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Physical State</label>
+            <select id="wiz-state" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 text-sm font-semibold focus:border-amber-500 focus:outline-none">
+              <option value="">-- Any State --</option>
+              <option value="Gas">Gas / Vapor Cloud</option>
+              <option value="Liquid">Liquid Pool</option>
+              <option value="Solid">Solid / Battery Pack</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Color</label>
+            <select id="wiz-color" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 text-sm font-semibold focus:border-amber-500 focus:outline-none">
+              <option value="">-- Any Color --</option>
+              <option value="Colorless">Colorless / Transparent</option>
+              <option value="Greenish-yellow">Greenish-Yellow</option>
+              <option value="Clear">Clear / Amber</option>
+              <option value="Fluorescent">Fluorescent Green/Pink</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Odor</label>
+            <select id="wiz-odor" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 text-sm font-semibold focus:border-amber-500 focus:outline-none">
+              <option value="">-- Any Odor --</option>
+              <option value="bleach">Pungent Bleach / Chlorine</option>
+              <option value="ammonia">Sharp Ammonia</option>
+              <option value="rotten eggs">Rotten Eggs (H2S)</option>
+              <option value="sweet">Sweet Solvent / Nail Polish</option>
+              <option value="ether">Sweet Chloroform / Ether (Brake Clean)</option>
+              <option value="odorless">Completely Odorless</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Symptoms Matrix -->
+        <div class="mb-6">
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Victim Symptoms (Tap all that apply)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button onclick="toggleSymptom(this, 'pinpoint pupils')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              👁️ Pinpoint Pupils (Miosis)
+            </button>
+            <button onclick="toggleSymptom(this, 'coughing')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              🫁 Severe Coughing / Choking
+            </button>
+            <button onclick="toggleSymptom(this, 'burns')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              🔥 Chemical Burns / Blisters
+            </button>
+            <button onclick="toggleSymptom(this, 'convulsions')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              ⚡ Convulsions / Seizures
+            </button>
+            <button onclick="toggleSymptom(this, 'dizziness')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              💫 Sudden Slump / Knockdown
+            </button>
+            <button onclick="toggleSymptom(this, 'blindness')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              ❄️ Snowstorm Vision / Blindness
+            </button>
+            <button onclick="toggleSymptom(this, 'pulmonary edema')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              💧 Frothy Pink Sputum
+            </button>
+            <button onclick="toggleSymptom(this, 'frostbite')" class="sym-btn text-left p-3 rounded-xl border border-slate-800 bg-slate-950 hover:border-slate-700 text-xs font-bold">
+              🧊 Rapid Frostbite Freezing
+            </button>
+          </div>
+        </div>
+
+        <button onclick="submitWizard()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 py-3.5 rounded-xl font-black text-base transition shadow-xl flex items-center justify-center">
+          <i data-lucide="sparkles" class="w-5 h-5 mr-2"></i> ANALYZE SYMPTOMS & DIAGNOSE SUBSTANCE
+        </button>
+      </div>
+
+      <div id="wizard-results" class="space-y-4"></div>
+    </section>
+
+    <!-- TAB 3: SAFE CHEMICAL STORAGE & GHS LABELS -->
+    <section id="view-storage" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-2xl font-black text-amber-400 mb-1 flex items-center">
+          <i data-lucide="boxes" class="w-7 h-7 mr-2"></i> Safe Chemical Storage & GHS Labeling Rules
+        </h2>
+        <p class="text-sm text-slate-400 mb-6">Simple, foolproof rules for industrial warehouses, automotive shops, and commercial facilities:</p>
+
+        <!-- Golden Rules of Storage -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-slate-950 border-l-4 border-rose-500 p-4 rounded-xl">
+            <span class="text-xs font-black text-rose-400 uppercase">Rule 1: Acid & Base Barrier</span>
+            <p class="text-xs text-slate-300 mt-1 font-semibold">NEVER store Acids (Hydrochloric, Sulfuric) and Bases (Ammonia, Lye) together. Violent boiling neutralization splatters acid.</p>
+          </div>
+          <div class="bg-slate-950 border-l-4 border-yellow-500 p-4 rounded-xl">
+            <span class="text-xs font-black text-yellow-400 uppercase">Rule 2: Oxidizer Distance</span>
+            <p class="text-xs text-slate-300 mt-1 font-semibold">Keep Oxidizers (Bleach, Nitric Acid) at least 20 feet away from Flammables (Gasoline, Solvents). Contact causes spontaneous flash fires.</p>
+          </div>
+          <div class="bg-slate-950 border-l-4 border-blue-500 p-4 rounded-xl">
+            <span class="text-xs font-black text-blue-400 uppercase">Rule 3: Water-Reactive Isolation</span>
+            <p class="text-xs text-slate-300 mt-1 font-semibold">Water-reactives must be in dedicated dry storage with NO overhead water sprinkler heads (use dry chemical suppression).</p>
+          </div>
+        </div>
+
+        <!-- Interactive Compatibility Checker -->
+        <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl mb-8">
+          <h3 class="text-sm font-black text-amber-400 uppercase tracking-wider mb-3">Instant Storage Segregation Checker</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-1">Storage Class 1</label>
+              <select id="stor-class-a" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs font-bold">
+                <option value="Corrosive Acid">Corrosive Acid</option>
+                <option value="Corrosive Base">Corrosive Base</option>
+                <option value="Flammable">Flammable / Solvent</option>
+                <option value="Oxidizer">Oxidizer</option>
+                <option value="Water-Reactive">Water-Reactive</option>
+                <option value="Lithium-Ion Batteries">Lithium-Ion Batteries</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-1">Storage Class 2</label>
+              <select id="stor-class-b" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs font-bold">
+                <option value="Corrosive Base">Corrosive Base</option>
+                <option value="Corrosive Acid">Corrosive Acid</option>
+                <option value="Flammable">Flammable / Solvent</option>
+                <option value="Oxidizer">Oxidizer</option>
+                <option value="Water-Reactive">Water-Reactive</option>
+                <option value="Lithium-Ion Batteries">Lithium-Ion Batteries</option>
+              </select>
+            </div>
+          </div>
+          <button onclick="checkStorageCompat()" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider border border-slate-700">
+            CHECK COMPATIBILITY & DISTANCE REQUIREMENTS
+          </button>
+          <div id="stor-result" class="mt-4 hidden p-4 rounded-xl text-xs font-semibold"></div>
+        </div>
+
+        <!-- GHS Pictograms Guide -->
+        <h3 class="text-base font-black text-white uppercase tracking-wider mb-3">OSHA GHS Label Pictogram Guide</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="ghs-grid"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: NIOSH POCKET GUIDE LIMITS -->
+    <section id="view-niosh" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-2xl font-black text-amber-400 mb-1 flex items-center">
+          <i data-lucide="activity" class="w-7 h-7 mr-2"></i> NIOSH & OSHA Occupational Exposure Limits
+        </h2>
+        <p class="text-sm text-slate-400 mb-6">Permissible Exposure Limits (OSHA PEL), Recommended Exposure Limits (NIOSH REL), and IDLH danger thresholds:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                <th class="p-3 font-black">SUBSTANCE</th>
+                <th class="p-3 font-black">OSHA PEL</th>
+                <th class="p-3 font-black">NIOSH REL</th>
+                <th class="p-3 font-black text-rose-400">IDLH THRESHOLD</th>
+                <th class="p-3 font-black">RESPIRATOR REQUIREMENT</th>
+              </tr>
+            </thead>
+            <tbody id="niosh-tbody" class="divide-y divide-slate-800 font-medium"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: REACTIVITY MATRIX -->
+    <section id="view-reactivity" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-2xl font-black text-amber-400 mb-1 flex items-center">
+          <i data-lucide="flask-conical" class="w-7 h-7 mr-2"></i> Chemical Mixing & Binary Incompatibility Matrix
+        </h2>
+        <p class="text-sm text-slate-400 mb-6">Evaluate co-mingled transit spills, warehouse runoff, or household mixing (e.g. Bleach + Ammonia):</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Chemical A</label>
+            <select id="react-chem-a" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm font-semibold focus:border-amber-500 focus:outline-none"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Chemical B</label>
+            <select id="react-chem-b" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm font-semibold focus:border-amber-500 focus:outline-none"></select>
+          </div>
+        </div>
+
+        <button onclick="evaluateReactivity()" class="w-full bg-rose-600 hover:bg-rose-500 text-white py-3.5 rounded-xl font-black text-base transition shadow-xl flex items-center justify-center">
+          <i data-lucide="alert-triangle" class="w-5 h-5 mr-2"></i> EVALUATE REACTION CONSEQUENCES
+        </button>
+      </div>
+      <div id="reactivity-result" class="hidden"></div>
+    </section>
+
+  </main>
+
+  <!-- SDS Modal Window -->
+  <div id="sds-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <span class="text-xs font-black text-amber-400 uppercase tracking-widest">OSHA 16-Section Standard</span>
+          <h3 id="sds-title" class="text-2xl font-black text-white">Safety Data Sheet</h3>
+        </div>
+        <button onclick="closeSdsModal()" class="text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <div id="sds-content" class="space-y-4 text-xs"></div>
+    </div>
+  </div>
+
+  <script>
+    let selectedSymptoms = [];
+    let chemicalList = [];
+    let activeCategory = '';
+
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      loadInitialData();
+    });
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.className = "tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition";
+      });
+      document.getElementById('tab-' + tab).className = "tab-btn px-4 py-2 rounded-xl font-black text-xs sm:text-sm flex items-center bg-amber-500 text-slate-950 shadow-md";
+
+      ['search', 'wizard', 'storage', 'niosh', 'reactivity'].forEach(t => {
+        document.getElementById('view-' + t).classList.add('hidden');
+      });
+      document.getElementById('view-' + tab).classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    async function loadInitialData() {
+      try {
+        const res = await fetch('/api/search');
+        const data = await res.json();
+        chemicalList = data.results || [];
+        
+        // Populate dropdowns
+        const selA = document.getElementById('react-chem-a');
+        const selB = document.getElementById('react-chem-b');
+        selA.innerHTML = '';
+        selB.innerHTML = '';
+        chemicalList.forEach((c) => {
+          const opt = `<option value="${c.id}">${c.un_number ? 'UN ' + c.un_number + ' - ' : ''}${c.name}</option>`;
+          selA.insertAdjacentHTML('beforeend', opt);
+          selB.insertAdjacentHTML('beforeend', opt);
+        });
+        if (chemicalList.length > 1) selB.selectedIndex = 1;
+
+        // Render Search Cards
+        renderCards(chemicalList);
+
+        // Render NIOSH Table
+        renderNioshTable(chemicalList);
+
+        // Render Storage Rules & GHS
+        const storRes = await fetch('/api/storage/rules');
+        const storData = await storRes.json();
+        renderGhsGrid(storData.pictograms || []);
+
+      } catch (err) {
+        console.error("Initial load error", err);
+      }
+    }
+
+    function filterCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(b => {
+        b.className = "cat-pill bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1 rounded-lg border border-slate-700";
+      });
+      const activeId = cat === '' ? 'cat-all' : 
+                       cat === 'Automotive' ? 'cat-auto' : 
+                       cat === 'Retail/Consumer' ? 'cat-retail' : 
+                       cat === 'Industrial' ? 'cat-ind' : 
+                       cat === 'Warehouse' ? 'cat-wh' : 'cat-cbrn';
+      if (document.getElementById(activeId)) {
+        document.getElementById(activeId).className = "cat-pill bg-amber-500 text-slate-950 px-3 py-1 rounded-lg border border-amber-400 font-bold";
+      }
+      performSearch();
+    }
+
+    function handleSearch(e) {
+      if (e.key === 'Enter' || document.getElementById('search-input').value.length >= 2 || document.getElementById('search-input').value.length === 0) {
+        performSearch();
+      }
+    }
+
+    async function performSearch() {
+      const q = document.getElementById('search-input').value.trim();
+      let url = `/api/search?q=${encodeURIComponent(q)}`;
+      if (activeCategory) url += `&category=${encodeURIComponent(activeCategory)}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        renderCards(data.results || []);
+      } catch (err) {
+        console.error("Search failed", err);
+      }
+    }
+
+    function renderCards(chems) {
+      const target = document.getElementById('cards-grid');
+      target.innerHTML = '';
+      if (!chems.length) {
+        target.innerHTML = '<div class="col-span-2 bg-slate-900 p-8 rounded-2xl text-center text-slate-500 font-bold">No matching substances found.</div>';
+        return;
+      }
+
+      chems.forEach(c => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-3xl p-6 shadow-xl space-y-4 transition";
+
+        card.innerHTML = `
+          <!-- Header -->
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex flex-wrap gap-2 items-center mb-1">
+                ${c.un_number ? `<span class="bg-amber-500 text-slate-950 text-xs px-2.5 py-0.5 rounded-md font-black mono">UN ${c.un_number}</span>` : ''}
+                <span class="text-xs text-slate-400 font-semibold mono">CAS: ${c.cas_number || 'N/A'}</span>
+                <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">ERG ${c.erg_guide}</span>
+                <span class="text-xs bg-blue-950 text-blue-300 px-2 py-0.5 rounded font-bold">${c.category || 'General'}</span>
+              </div>
+              <h3 class="text-xl font-black text-white">${c.name}</h3>
+              <p class="text-xs text-rose-400 font-bold tracking-wide">${c.hazard_class || ''}</p>
+            </div>
+
+            <!-- Mini NFPA Diamond -->
+            <div class="flex-shrink-0 ml-2">
+              <div class="nfpa-diamond bg-slate-800">
+                <div class="nfpa-box top-0 left-0 bg-red-600 text-white"><span class="nfpa-text">${c.nfpa_flammability || 0}</span></div>
+                <div class="nfpa-box bottom-0 left-0 bg-blue-600 text-white"><span class="nfpa-text">${c.nfpa_health || 0}</span></div>
+                <div class="nfpa-box top-0 right-0 bg-yellow-400 text-slate-950"><span class="nfpa-text">${c.nfpa_instability || 0}</span></div>
+                <div class="nfpa-box bottom-0 right-0 bg-slate-100 text-slate-950 text-xs"><span class="nfpa-text">${c.nfpa_special || ''}</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Second Action Box -->
+          <div class="bg-rose-950/40 border border-rose-800/60 rounded-xl p-3.5 space-y-2">
+            <div class="text-xs font-black text-rose-400 uppercase tracking-widest flex items-center">
+              <i data-lucide="alert-octagon" class="w-4 h-4 mr-1.5"></i> Initial Isolation (ERG 2024)
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="bg-slate-950/70 p-2.5 rounded-lg">
+                <span class="text-slate-400 block font-semibold">Small Spill (Day):</span>
+                <span class="font-black text-white mono text-sm">${c.iso_small_day_m}m</span> (${Math.round(c.iso_small_day_m * 3.28)} ft)
+              </div>
+              <div class="bg-slate-950/70 p-2.5 rounded-lg">
+                <span class="text-slate-400 block font-semibold">Large Spill (Night):</span>
+                <span class="font-black text-amber-400 mono text-sm">${c.iso_large_night_m}m</span> (${(c.iso_large_night_km * 0.621).toFixed(1)} mi)
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions & SDS trigger -->
+          <div class="text-xs space-y-1.5">
+            <div><strong class="text-amber-400 uppercase">PPE:</strong> <span class="text-slate-300">${c.ppe_level}</span></div>
+            <div><strong class="text-emerald-400 uppercase">First Aid:</strong> <span class="text-slate-300">${c.first_aid}</span></div>
+            ${c.antidote ? `<div><strong class="text-yellow-400 uppercase">Antidote:</strong> <span class="text-yellow-200 font-bold">${c.antidote}</span></div>` : ''}
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-500">Storage: ${c.storage_class || 'General'}</span>
+            <button onclick="openSdsModal(${c.id})" class="bg-slate-800 hover:bg-slate-700 text-amber-400 px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center border border-slate-700">
+              <i data-lucide="file-text" class="w-3.5 h-3.5 mr-1"></i> Full 16-Sec SDS
+            </button>
+          </div>
+        `;
+        target.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    async function openSdsModal(chemId) {
+      try {
+        const res = await fetch(`/api/sds/${chemId}`);
+        const data = await res.json();
+        document.getElementById('sds-title').textContent = data.title;
+        const sec = data.sections;
+
+        document.getElementById('sds-content').innerHTML = `
+          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-amber-400 uppercase">Section 1: Identification</h4>
+            <p class="text-slate-300 mt-1">${sec["1_identification"].product_name} (${sec["1_identification"].un_number}, CAS: ${sec["1_identification"].cas_number})</p>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-rose-400 uppercase">Section 2: Hazard Identification</h4>
+            <p class="text-slate-300 mt-1 font-semibold">Signal Word: <strong class="text-white">${sec["2_hazard_identification"].signal_word || 'N/A'}</strong> | Class: ${sec["2_hazard_identification"].hazard_class}</p>
+            <p class="text-slate-400 mt-0.5">${sec["2_hazard_identification"].hazard_summary}</p>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-emerald-400 uppercase">Section 4: First-Aid Measures</h4>
+            <p class="text-slate-300 mt-1">${sec["4_first_aid_measures"].first_aid}</p>
+            <p class="text-amber-300 mt-1 font-bold">Antidote: ${sec["4_first_aid_measures"].antidote}</p>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-blue-400 uppercase">Section 7: Handling & Storage</h4>
+            <p class="text-slate-300 mt-1">Class: <strong>${sec["7_handling_and_storage"].storage_class}</strong> | Temp: ${sec["7_handling_and_storage"].recommended_temp}</p>
+            <p class="text-rose-300 mt-1">Incompatibilities: ${sec["7_handling_and_storage"].incompatibilities}</p>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+            <h4 class="font-bold text-purple-400 uppercase">Section 8: Exposure Controls & NIOSH Limits</h4>
+            <p class="text-slate-300 mt-1">OSHA PEL: <strong>${sec["8_exposure_controls_ppe"].osha_pel}</strong> | NIOSH REL: <strong>${sec["8_exposure_controls_ppe"].niosh_rel}</strong> | IDLH: <strong class="text-rose-400">${sec["8_exposure_controls_ppe"].idlh_level}</strong></p>
+            <p class="text-slate-400 mt-1">Respirator: ${sec["8_exposure_controls_ppe"].respirator || 'SCBA'}</p>
+          </div>
+        `;
+        document.getElementById('sds-modal').classList.remove('hidden');
+        lucide.createIcons();
+      } catch (err) {
+        console.error("Failed to load SDS", err);
+      }
+    }
+
+    function closeSdsModal() {
+      document.getElementById('sds-modal').classList.add('hidden');
+    }
+
+    function renderNioshTable(chems) {
+      const tbody = document.getElementById('niosh-tbody');
+      tbody.innerHTML = '';
+      chems.forEach(c => {
+        const row = `
+          <tr class="hover:bg-slate-900/60">
+            <td class="p-3 font-bold text-white">${c.name}</td>
+            <td class="p-3 text-slate-300">${c.osha_pel || 'None'}</td>
+            <td class="p-3 text-slate-300">${c.niosh_rel || 'None'}</td>
+            <td class="p-3 font-black text-rose-400">${c.idlh_level || 'None'}</td>
+            <td class="p-3 text-slate-400">${c.respirator_req || 'SCBA'}</td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+    }
+
+    function renderGhsGrid(pics) {
+      const grid = document.getElementById('ghs-grid');
+      grid.innerHTML = '';
+      pics.forEach(p => {
+        grid.insertAdjacentHTML('beforeend', `
+          <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl">${p.symbol}</span>
+              <h4 class="font-black text-sm text-white">${p.name}</h4>
+            </div>
+            <p class="text-xs text-slate-400 font-semibold">${p.hazard_description}</p>
+            <p class="text-xs text-amber-300 font-bold mt-1">Safety: ${p.precautions}</p>
+          </div>
+        `);
+      });
+    }
+
+    async function checkStorageCompat() {
+      const a = document.getElementById('stor-class-a').value;
+      const b = document.getElementById('stor-class-b').value;
+      try {
+        const res = await fetch(`/api/storage/check?class_a=${encodeURIComponent(a)}&class_b=${encodeURIComponent(b)}`);
+        const data = await res.json();
+        const box = document.getElementById('stor-result');
+        box.classList.remove('hidden');
+        if (data.compatibility === 'STRICTLY FORBIDDEN') {
+          box.className = "mt-4 p-4 rounded-xl text-xs font-semibold bg-rose-950 border border-rose-600 text-rose-200";
+          box.innerHTML = `<strong>⚠️ STRICTLY FORBIDDEN TOGETHER:</strong> ${data.reason}<br><span class="text-white mt-1 block"><strong>Mandatory Action:</strong> ${data.action_required}</span>`;
+        } else {
+          box.className = "mt-4 p-4 rounded-xl text-xs font-semibold bg-emerald-950 border border-emerald-600 text-emerald-200";
+          box.innerHTML = `<strong>✓ ${data.compatibility}:</strong> ${data.reason}<br><span class="text-white mt-1 block"><strong>Storage Protocol:</strong> ${data.action_required}</span>`;
+        }
+      } catch (err) {
+        console.error("Storage check failed", err);
+      }
+    }
+
+    function toggleSymptom(btn, sym) {
+      if (selectedSymptoms.includes(sym)) {
+        selectedSymptoms = selectedSymptoms.filter(s => s !== sym);
+        btn.classList.remove('bg-amber-500', 'text-slate-950', 'border-amber-400');
+        btn.classList.add('bg-slate-950', 'text-slate-100', 'border-slate-800');
+      } else {
+        selectedSymptoms.push(sym);
+        btn.classList.remove('bg-slate-950', 'text-slate-100', 'border-slate-800');
+        btn.classList.add('bg-amber-500', 'text-slate-950', 'border-amber-400');
+      }
+    }
+
+    async function submitWizard() {
+      const payload = {
+        physical_state: document.getElementById('wiz-state').value,
+        color: document.getElementById('wiz-color').value,
+        odor: document.getElementById('wiz-odor').value,
+        symptoms: selectedSymptoms
+      };
+
+      try {
+        const res = await fetch('/api/identify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        const results = data.ranked_candidates || [];
+        const container = document.getElementById('wizard-results');
+
+        container.innerHTML = `<h3 class="text-sm font-black text-amber-400 uppercase tracking-widest mb-2">${results.length} Ranked Chemical Candidates</h3>`;
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+
+        results.forEach(item => {
+          const c = item.chemical;
+          grid.insertAdjacentHTML('beforeend', `
+            <div class="bg-slate-900 border-2 border-amber-500/80 rounded-2xl p-5 shadow-2xl space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="bg-emerald-500 text-slate-950 px-2.5 py-0.5 rounded-md font-black text-xs">CONFIDENCE: ${item.confidence_score}%</span>
+                <span class="text-xs mono text-slate-400">${c.un_number ? 'UN ' + c.un_number : ''}</span>
+              </div>
+              <h4 class="text-xl font-black text-white">${c.name}</h4>
+              <div class="text-xs text-amber-300 space-y-0.5 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                ${item.reasons.map(r => `<div>✓ ${r}</div>`).join('')}
+              </div>
+              <div class="text-xs text-slate-300">
+                <strong class="text-rose-400 uppercase">Immediate Action:</strong> Evacuate ${c.iso_small_day_m}m. Wear ${c.ppe_level}.
+              </div>
+            </div>
+          `);
+        });
+        container.appendChild(grid);
+        lucide.createIcons();
+      } catch (err) {
+        console.error("Wizard failed", err);
+      }
+    }
+
+    async function evaluateReactivity() {
+      const a = document.getElementById('react-chem-a').value;
+      const b = document.getElementById('react-chem-b').value;
+      if (a === b) {
+        alert("Select two distinct substances.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/reactivity?chem_a_id=${a}&chem_b_id=${b}`);
+        const data = await res.json();
+        const out = document.getElementById('reactivity-result');
+        out.classList.remove('hidden');
+
+        const isDanger = data.danger_level !== "LOW";
+        out.className = `p-6 rounded-3xl border-2 shadow-2xl ${isDanger ? 'bg-rose-950/70 border-rose-600 text-rose-100' : 'bg-slate-900 border-emerald-500 text-slate-100'}`;
+
+        out.innerHTML = `
+          <div class="flex items-center space-x-2 text-sm font-black uppercase tracking-widest ${isDanger ? 'text-rose-400' : 'text-emerald-400'}">
+            <i data-lucide="${isDanger ? 'alert-triangle' : 'check-circle'}" class="w-5 h-5"></i>
+            <span>Reactivity Verdict: ${data.danger_level}</span>
+          </div>
+          <h3 class="text-xl font-black mt-1">${data.chemical_a} + ${data.chemical_b}</h3>
+          <div class="mt-4 space-y-2 text-sm font-semibold">
+            ${data.consequences.map(c => `<div class="bg-slate-950/80 p-3.5 rounded-xl border border-white/10">${c}</div>`).join('')}
+          </div>
+        `;
+        lucide.createIcons();
+      } catch (err) {
+        console.error("Reactivity failed", err);
+      }
+    }
+  
+    // === WISER 2.6 ENHANCEMENTS: OFFLINE PWA, VOICE RECON, TTS BRIEF, ERG PLUME CONE & FEMA ICS-208 ===
+    let offlineSnapshot = null;
+
+    async function initOfflinePwa() {
+      if ('serviceWorker' in navigator) {
+        try {
+          await navigator.serviceWorker.register('/sw.js');
+        } catch (e) {
+          console.warn('SW register warning:', e);
+        }
+      }
+      try {
+        const res = await fetch('/static/offline_db.json');
+        if (res.ok) {
+          offlineSnapshot = await res.json();
+          localStorage.setItem('wiser_offline_version', offlineSnapshot.version || '2.6.0');
+          populatePlumeSelector(offlineSnapshot.chemicals || []);
+          const badge = document.getElementById('pwaStatusBadge');
+          if (badge) badge.textContent = `📡 OFFLINE CACHE READY (${(offlineSnapshot.chemicals || []).length} CHEMS)`;
+        }
+      } catch (e) {
+        console.warn('Offline snapshot preload fallback:', e);
+      }
+    }
+
+    function populatePlumeSelector(chems) {
+      const sel = document.getElementById('plumeChemSelect');
+      if (!sel || !chems.length) return;
+      sel.innerHTML = chems.map(c => `<option value="${c.id}" ${c.un_number === '1017' ? 'selected' : ''}>UN${c.un_number} — ${c.name} (ERG ${c.erg_guide})</option>`).join('');
+    }
+
+    const _origSwitchTab = switchTab;
+    switchTab = function(tab) {
+      ['search', 'plume', 'identify', 'storage', 'reactivity'].forEach(t => {
+        const v = document.getElementById('view-' + t);
+        const b = document.getElementById('tab-' + t);
+        if (v) v.classList.toggle('hidden', t !== tab);
+        if (b) {
+          if (t === tab) {
+            b.className = "tab-active px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5";
+          } else {
+            b.className = "px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5";
+          }
+        }
+      });
+      if (tab === 'plume') {
+        computePlume(false);
+      }
+    };
+
+    function toggleNightVision() {
+      document.body.classList.toggle('night-vision-mode');
+      const btn = document.getElementById('nightVisionBtn');
+      const on = document.body.classList.contains('night-vision-mode');
+      if (btn) btn.textContent = on ? '☀️ Normal Cab' : '🔴 Night Cab';
+    }
+
+    function startVoiceRecon() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        alert('Speech recognition is not supported in this browser. Type UN# or chemical name directly.');
+        return;
+      }
+      const rec = new SR();
+      rec.lang = 'en-US';
+      rec.interimResults = false;
+      rec.maxAlternatives = 1;
+      const btn = document.getElementById('voiceSearchBtn');
+      if (btn) btn.textContent = '🛑 Listening...';
+      rec.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.replace(/[^a-zA-Z0-9\s-]/g, '').trim();
+        document.getElementById('searchInput').value = transcript;
+        runSearch();
+      };
+      rec.onend = () => {
+        if (btn) btn.textContent = '🎙️ Voice';
+      };
+      rec.onerror = () => {
+        if (btn) btn.textContent = '🎙️ Voice';
+      };
+      rec.start();
+    }
+
+    function speakTacticalBrief(chem) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const waterMsg = chem.water_reactive ? 'CRITICAL WARNING: Substance is water reactive. Do not apply water directly.' : 'Water fog permissible per guide.';
+      const text = `WISER Tactical Briefing for U N ${chem.un_number}, ${chem.name}. ` +
+        `E R G Guide ${chem.erg_guide}. Hazard class ${chem.hazard_class}. ` +
+        `${waterMsg} ` +
+        `Initial isolation distance: ${chem.iso_small_day_m} meters for small daytime spill, expanding to ${chem.iso_large_night_m} meters and ${chem.iso_large_night_km} kilometers downwind at night. ` +
+        `Required P P E: ${chem.ppe_level}. ` +
+        `Specific clinical antidote: ${chem.antidote}.`;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 1.02;
+      window.speechSynthesis.speak(utter);
+    }
+
+    async function speakChemById(chemId) {
+      let chem = allChemicalsCache.find(c => c.id === chemId);
+      if (!chem && offlineSnapshot) {
+        chem = (offlineSnapshot.chemicals || []).find(c => c.id === chemId);
+      }
+      if (!chem) {
+        const res = await fetch(`/api/chemical/${chemId}`);
+        chem = await res.json();
+      }
+      if (chem) speakTacticalBrief(chem);
+    }
+
+    const CARDINAL_16 = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    function degToCard(d) {
+      return CARDINAL_16[Math.round(((d % 360) + 360) % 360 / 22.5) % 16];
+    }
+
+    async function computePlume(useLiveWeather) {
+      const sel = document.getElementById('plumeChemSelect');
+      const chemId = parseInt((sel && sel.value) || '10', 10);
+      const loc = document.getElementById('plumeLocation').value;
+      const spillSize = document.getElementById('plumeSpillSize').value;
+      const timeOfDay = document.getElementById('plumeTimeOfDay').value;
+      const wDir = parseFloat(document.getElementById('plumeWindDir').value || '270');
+      const wSpd = parseFloat(document.getElementById('plumeWindSpeed').value || '12');
+
+      document.getElementById('windDirLabel').textContent = `${Math.round(wDir)}° ${degToCard(wDir)}`;
+      document.getElementById('windSpdLabel').textContent = Math.round(wSpd);
+
+      let p = null;
+      try {
+        const url = `/api/plume?chem_id=${chemId}&spill_size=${spillSize}&time_of_day=${timeOfDay}&wind_dir_deg=${wDir}&wind_speed_mph=${wSpd}&location=${encodeURIComponent(loc)}&use_live_weather=${useLiveWeather}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          p = await res.json();
+          if (useLiveWeather && p.wind_from_deg !== undefined) {
+            document.getElementById('plumeWindDir').value = Math.round(p.wind_from_deg);
+            document.getElementById('plumeWindSpeed').value = Math.round(p.wind_speed_mph);
+            document.getElementById('windDirLabel').textContent = `${Math.round(p.wind_from_deg)}° ${p.wind_from_cardinal}`;
+            document.getElementById('windSpdLabel').textContent = Math.round(p.wind_speed_mph);
+          }
+        }
+      } catch (err) {
+        // Offline client computation from offlineSnapshot
+        const c = (offlineSnapshot?.chemicals || allChemicalsCache).find(x => x.id === chemId) || allChemicalsCache[0];
+        if (c) {
+          const isLarge = spillSize === 'large';
+          const isNight = timeOfDay === 'night';
+          const isoM = isLarge ? (c.iso_large_night_m || 200) : (c.iso_small_day_m || 50);
+          const padKm = isLarge ? (c.iso_large_night_km || 0.5) : (c.iso_small_day_km || 0.1);
+          const downDeg = (wDir + 180) % 360;
+          p = {
+            chemical_id: c.id,
+            chemical_name: c.name,
+            un_number: c.un_number,
+            erg_guide: c.erg_guide,
+            location_label: loc + ' (Offline Computed)',
+            weather_source: 'offline_pwa_engine',
+            wind_from_deg: wDir,
+            wind_from_cardinal: degToCard(wDir),
+            wind_speed_mph: wSpd,
+            downwind_bearing_deg: downDeg,
+            downwind_cardinal: degToCard(downDeg),
+            recommended_staging_bearing_deg: wDir,
+            recommended_staging_cardinal: degToCard(wDir),
+            initial_isolation_m: isoM,
+            initial_isolation_ft: Math.round(isoM * 3.28084),
+            downwind_pad_km: padKm,
+            downwind_pad_mi: +(padKm * 0.621371).toFixed(2),
+            cone_half_angle_deg: 18,
+            vapor_density: c.vapor_density,
+            vapor_behavior: (c.vapor_density || 0) > 1.05 ? 'HEAVIER THAN AIR — Hugs ground/drains' : 'Buoyant/Neutral vapor',
+            water_reactive: !!c.water_reactive,
+            tactical_directive: `Stage UPWIND at ${wDir}° (${degToCard(wDir)}). Hot Zone ${isoM}m. Evacuate ${padKm} km DOWNWIND toward ${downDeg}° (${degToCard(downDeg)}).`
+          };
+        }
+      }
+      if (!p) return;
+      renderPlumeSvgAndMetrics(p);
+    }
+
+    function renderPlumeSvgAndMetrics(p) {
+      const cx = 180, cy = 180, rMax = 148;
+      // Convert meteorological bearing (0=N, 90=E) to SVG math radians (0=E, 90=S)
+      const downRad = ((p.downwind_bearing_deg - 90) * Math.PI) / 180;
+      const stageRad = ((p.recommended_staging_bearing_deg - 90) * Math.PI) / 180;
+      const halfAngle = ((p.cone_half_angle_deg || 18) * Math.PI) / 180;
+
+      const x1 = cx + rMax * Math.cos(downRad - halfAngle);
+      const y1 = cy + rMax * Math.sin(downRad - halfAngle);
+      const x2 = cx + rMax * Math.cos(downRad + halfAngle);
+      const y2 = cy + rMax * Math.sin(downRad + halfAngle);
+      const sx = cx + 92 * Math.cos(stageRad);
+      const sy = cy + 92 * Math.sin(stageRad);
+
+      const svg = `
+        <svg viewBox="0 0 360 360" class="w-full h-full">
+          <defs>
+            <radialGradient id="plumeGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ef4444" stop-opacity="0.75"/>
+              <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#eab308" stop-opacity="0.12"/>
+            </radialGradient>
+          </defs>
+          <circle cx="${cx}" cy="${cy}" r="155" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+          <circle cx="${cx}" cy="${cy}" r="115" fill="none" stroke="#1e293b" stroke-dasharray="4 4"/>
+          <circle cx="${cx}" cy="${cy}" r="75" fill="none" stroke="#1e293b" stroke-dasharray="4 4"/>
+          <line x1="${cx}" y1="20" x2="${cx}" y2="340" stroke="#1e293b" stroke-width="1"/>
+          <line x1="20" y1="${cy}" x2="340" y2="${cy}" stroke="#1e293b" stroke-width="1"/>
+          <text x="${cx}" y="16" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">N (0°)</text>
+          <text x="348" y="${cy+4}" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">E</text>
+          <text x="${cx}" y="355" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">S</text>
+          <text x="12" y="${cy+4}" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">W</text>
+
+          <!-- Downwind Plume Cone -->
+          <path d="M ${cx} ${cy} L ${x1.toFixed(1)} ${y1.toFixed(1)} A ${rMax} ${rMax} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} Z"
+                fill="url(#plumeGrad)" stroke="#f59e0b" stroke-width="2"/>
+
+          <!-- 360 Hot Zone Initial Isolation Circle -->
+          <circle cx="${cx}" cy="${cy}" r="36" fill="rgba(220,38,38,0.35)" stroke="#ef4444" stroke-width="2.5"/>
+          <circle cx="${cx}" cy="${cy}" r="5" fill="#ffffff"/>
+
+          <!-- Upwind Apparatus Staging Marker -->
+          <line x1="${cx}" y1="${cy}" x2="${sx.toFixed(1)}" y2="${sy.toFixed(1)}" stroke="#10b981" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="9" fill="#059669" stroke="#a7f3d0" stroke-width="2"/>
+          <text x="${sx.toFixed(1)}" y="${(sy - 13).toFixed(1)}" text-anchor="middle" fill="#6ee7b7" font-size="9" font-weight="bold">STAGE UPWIND</text>
+        </svg>
+      `;
+      document.getElementById('plumeSvgContainer').innerHTML = svg;
+
+      document.getElementById('plumeMetricsPanel').innerHTML = `
+        <div class="bg-red-950/40 border border-red-700/60 rounded-xl p-4">
+          <div class="text-xs font-mono uppercase text-red-400 font-bold">🚨 TACTICAL DIRECTIVE (${p.location_label})</div>
+          <div class="text-sm font-bold text-white mt-1">${p.tactical_directive}</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🔴 360° Hot Zone (Initial Isolation)</div>
+            <div class="text-2xl font-black text-red-400 font-mono mt-1">${p.initial_isolation_m} m <span class="text-sm text-slate-400">(${p.initial_isolation_ft} ft)</span></div>
+            <div class="text-[11px] text-slate-500 mt-0.5">ERG Guide #${p.erg_guide} • Full Level A/B PPE Inside</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🟠 Downwind Protective Action (PAD)</div>
+            <div class="text-2xl font-black text-amber-400 font-mono mt-1">${p.downwind_pad_km} km <span class="text-sm text-slate-400">(${p.downwind_pad_mi} mi)</span></div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Plume Bearing: ${p.downwind_bearing_deg}° (${p.downwind_cardinal})</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🟢 Upwind Apparatus Staging</div>
+            <div class="text-xl font-black text-emerald-400 font-mono mt-1">${p.recommended_staging_bearing_deg}° (${p.recommended_staging_cardinal})</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Wind FROM ${p.wind_from_deg}° @ ${p.wind_speed_mph} mph (${p.weather_source})</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">💨 Vapor Density & Water Rules</div>
+            <div class="text-xs font-bold ${p.water_reactive ? 'text-blue-400' : 'text-slate-200'} mt-1">${p.water_reactive ? '💧 WATER-REACTIVE (NO WATER!)' : 'Standard Water Fog OK'}</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">${p.vapor_behavior}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function openIcs208FromPlume() {
+      const sel = document.getElementById('plumeChemSelect');
+      const chemId = parseInt((sel && sel.value) || '10', 10);
+      await openIcs208Modal(chemId);
+    }
+
+    async function openIcs208Modal(chemId) {
+      const loc = document.getElementById('plumeLocation')?.value || 'Pueblo, CO';
+      const spillSize = document.getElementById('plumeSpillSize')?.value || 'large';
+      const timeOfDay = document.getElementById('plumeTimeOfDay')?.value || 'night';
+      const wDir = document.getElementById('plumeWindDir')?.value || '270';
+      const wSpd = document.getElementById('plumeWindSpeed')?.value || '12';
+      const res = await fetch(`/api/ics208/${chemId}?location=${encodeURIComponent(loc)}&spill_size=${spillSize}&time_of_day=${timeOfDay}&wind_dir_deg=${wDir}&wind_speed_mph=${wSpd}`);
+      const plan = await res.json();
+
+      const modal = document.getElementById('sdsModal');
+      const content = document.getElementById('sdsModalContent');
+      content.innerHTML = `
+        <div class="p-6 space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded text-xs font-mono font-bold">${plan.form}</span>
+              <h2 class="text-2xl font-black text-white mt-1">${plan.chemical.un_number} — ${plan.chemical.name}</h2>
+              <p class="text-xs text-slate-400 font-mono">Generated: ${plan.generated_utc} | Sector: ${plan.location} | ERG Guide #${plan.chemical.erg_guide}</p>
+            </div>
+            <div class="flex gap-2 no-print">
+              <button onclick="speakChemById(${plan.chemical.id})" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs">🔊 Speak 60s Brief</button>
+              <button onclick="window.print()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs">🖨️ Print / Save PDF</button>
+              <button onclick="closeModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs">✕ Close</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div class="bg-slate-950 border border-red-800/60 rounded-xl p-4 space-y-1.5">
+              <div class="text-xs font-bold text-red-400 uppercase">1. Control Zones & Evacuation</div>
+              <div><strong class="text-slate-300">Hot Zone (Exclusion):</strong> ${plan.control_zones.hot_zone_exclusion_radius_m} m (${plan.control_zones.hot_zone_exclusion_radius_ft} ft) 360°</div>
+              <div><strong class="text-slate-300">Downwind PAD:</strong> ${plan.control_zones.downwind_protective_action_km} km (${plan.control_zones.downwind_protective_action_mi} mi) toward ${plan.control_zones.downwind_plume_bearing_deg}° (${plan.control_zones.downwind_plume_cardinal})</div>
+              <div><strong class="text-slate-300">Warm Zone Decon:</strong> ${plan.control_zones.warm_zone_decon_corridor}</div>
+              <div><strong class="text-emerald-400">Apparatus Staging:</strong> ${plan.control_zones.apparatus_staging_vector}</div>
+            </div>
+            <div class="bg-slate-950 border border-blue-800/60 rounded-xl p-4 space-y-1.5">
+              <div class="text-xs font-bold text-blue-400 uppercase">2. PPE & Exposure Limits</div>
+              <div><strong class="text-slate-300">Entry Team PPE:</strong> ${plan.ppe_and_respiratory.entry_team_ppe}</div>
+              <div><strong class="text-slate-300">Respirator:</strong> ${plan.ppe_and_respiratory.respirator_requirement}</div>
+              <div><strong class="text-slate-300">OSHA PEL / NIOSH REL:</strong> ${plan.ppe_and_respiratory.osha_pel} / ${plan.ppe_and_respiratory.niosh_rel}</div>
+              <div><strong class="text-red-400">IDLH Ceiling:</strong> ${plan.ppe_and_respiratory.idlh}</div>
+            </div>
+            <div class="bg-slate-950 border border-amber-800/60 rounded-xl p-4 space-y-1.5 md:col-span-2">
+              <div class="text-xs font-bold text-amber-400 uppercase">3. Decon, Medical Triage & Countermeasures</div>
+              <div><strong class="text-slate-300">Decon Rule:</strong> ${plan.decon_and_medical.water_reactive_warning}</div>
+              <div><strong class="text-slate-300">Signs & Symptoms:</strong> ${plan.decon_and_medical.symptoms_to_monitor}</div>
+              <div><strong class="text-slate-300">First Aid Protocol:</strong> ${plan.decon_and_medical.first_aid_protocol}</div>
+              <div><strong class="text-emerald-400">Specific Antidote:</strong> ${plan.decon_and_medical.specific_antidote}</div>
+              <div><strong class="text-red-300">Fire Suppression:</strong> ${plan.decon_and_medical.fire_suppression}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+    }
+
+    // Hook into openSdsModal to add Speak 60s Brief, Print 16-Sec SDS, and FEMA ICS-208 buttons
+    const _origOpenSdsModal = openSdsModal;
+    openSdsModal = async function(chemId) {
+      await _origOpenSdsModal(chemId);
+      const content = document.getElementById('sdsModalContent');
+      if (content && !content.innerHTML.includes('speakChemById')) {
+        const actionToolbar = `
+          <div class="flex flex-wrap gap-2 px-6 pt-4 no-print">
+            <button onclick="speakChemById(${chemId})" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs">🔊 Speak 60s Tactical Brief</button>
+            <button onclick="openIcs208Modal(${chemId})" class="px-3.5 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg text-xs">📋 FEMA ICS-208 Safety Plan</button>
+            <button onclick="window.print()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs">🖨️ Print 16-Section OSHA SDS</button>
+          </div>
+        `;
+        content.insertAdjacentHTML('afterbegin', actionToolbar);
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initOfflinePwa();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const qParam = params.get('q');
+      if (qParam) {
+        const inp = document.getElementById('searchInput');
+        if (inp) {
+          inp.value = qParam;
+          setTimeout(() => runSearch(), 250);
+        }
+      }
+      const startTab = localStorage.getItem('wiser_start_tab');
+      if (startTab) {
+        localStorage.removeItem('wiser_start_tab');
+        setTimeout(() => switchTab(startTab), 200);
+      }
+    });
+
+
+  
+    // === WISER 2.6 ENHANCEMENTS: OFFLINE PWA, VOICE RECON, TTS BRIEF, ERG PLUME CONE & FEMA ICS-208 ===
+    let offlineSnapshot = null;
+
+    async function initOfflinePwa() {
+      if ('serviceWorker' in navigator) {
+        try {
+          await navigator.serviceWorker.register('/sw.js');
+        } catch (e) {
+          console.warn('SW register warning:', e);
+        }
+      }
+      try {
+        const res = await fetch('/static/offline_db.json');
+        if (res.ok) {
+          offlineSnapshot = await res.json();
+          localStorage.setItem('wiser_offline_version', offlineSnapshot.version || '2.6.0');
+          populatePlumeSelector(offlineSnapshot.chemicals || []);
+          const badge = document.getElementById('pwaStatusBadge');
+          if (badge) badge.textContent = `📡 OFFLINE CACHE READY (${(offlineSnapshot.chemicals || []).length} CHEMS)`;
+        }
+      } catch (e) {
+        console.warn('Offline snapshot preload fallback:', e);
+      }
+    }
+
+    function populatePlumeSelector(chems) {
+      const sel = document.getElementById('plumeChemSelect');
+      if (!sel || !chems.length) return;
+      sel.innerHTML = chems.map(c => `<option value="${c.id}" ${c.un_number === '1017' ? 'selected' : ''}>UN${c.un_number} — ${c.name} (ERG ${c.erg_guide})</option>`).join('');
+    }
+
+    const _origSwitchTab = switchTab;
+    switchTab = function(tab) {
+      ['search', 'plume', 'identify', 'storage', 'reactivity'].forEach(t => {
+        const v = document.getElementById('view-' + t);
+        const b = document.getElementById('tab-' + t);
+        if (v) v.classList.toggle('hidden', t !== tab);
+        if (b) {
+          if (t === tab) {
+            b.className = "tab-active px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5";
+          } else {
+            b.className = "px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5";
+          }
+        }
+      });
+      if (tab === 'plume') {
+        computePlume(false);
+      }
+    };
+
+    function toggleNightVision() {
+      document.body.classList.toggle('night-vision-mode');
+      const btn = document.getElementById('nightVisionBtn');
+      const on = document.body.classList.contains('night-vision-mode');
+      if (btn) btn.textContent = on ? '☀️ Normal Cab' : '🔴 Night Cab';
+    }
+
+    function startVoiceRecon() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        alert('Speech recognition is not supported in this browser. Type UN# or chemical name directly.');
+        return;
+      }
+      const rec = new SR();
+      rec.lang = 'en-US';
+      rec.interimResults = false;
+      rec.maxAlternatives = 1;
+      const btn = document.getElementById('voiceSearchBtn');
+      if (btn) btn.textContent = '🛑 Listening...';
+      rec.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.replace(/[^a-zA-Z0-9\s-]/g, '').trim();
+        document.getElementById('searchInput').value = transcript;
+        runSearch();
+      };
+      rec.onend = () => {
+        if (btn) btn.textContent = '🎙️ Voice';
+      };
+      rec.onerror = () => {
+        if (btn) btn.textContent = '🎙️ Voice';
+      };
+      rec.start();
+    }
+
+    function speakTacticalBrief(chem) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const waterMsg = chem.water_reactive ? 'CRITICAL WARNING: Substance is water reactive. Do not apply water directly.' : 'Water fog permissible per guide.';
+      const text = `WISER Tactical Briefing for U N ${chem.un_number}, ${chem.name}. ` +
+        `E R G Guide ${chem.erg_guide}. Hazard class ${chem.hazard_class}. ` +
+        `${waterMsg} ` +
+        `Initial isolation distance: ${chem.iso_small_day_m} meters for small daytime spill, expanding to ${chem.iso_large_night_m} meters and ${chem.iso_large_night_km} kilometers downwind at night. ` +
+        `Required P P E: ${chem.ppe_level}. ` +
+        `Specific clinical antidote: ${chem.antidote}.`;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 1.02;
+      window.speechSynthesis.speak(utter);
+    }
+
+    async function speakChemById(chemId) {
+      let chem = allChemicalsCache.find(c => c.id === chemId);
+      if (!chem && offlineSnapshot) {
+        chem = (offlineSnapshot.chemicals || []).find(c => c.id === chemId);
+      }
+      if (!chem) {
+        const res = await fetch(`/api/chemical/${chemId}`);
+        chem = await res.json();
+      }
+      if (chem) speakTacticalBrief(chem);
+    }
+
+    const CARDINAL_16 = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    function degToCard(d) {
+      return CARDINAL_16[Math.round(((d % 360) + 360) % 360 / 22.5) % 16];
+    }
+
+    async function computePlume(useLiveWeather) {
+      const sel = document.getElementById('plumeChemSelect');
+      const chemId = parseInt((sel && sel.value) || '10', 10);
+      const loc = document.getElementById('plumeLocation').value;
+      const spillSize = document.getElementById('plumeSpillSize').value;
+      const timeOfDay = document.getElementById('plumeTimeOfDay').value;
+      const wDir = parseFloat(document.getElementById('plumeWindDir').value || '270');
+      const wSpd = parseFloat(document.getElementById('plumeWindSpeed').value || '12');
+
+      document.getElementById('windDirLabel').textContent = `${Math.round(wDir)}° ${degToCard(wDir)}`;
+      document.getElementById('windSpdLabel').textContent = Math.round(wSpd);
+
+      let p = null;
+      try {
+        const url = `/api/plume?chem_id=${chemId}&spill_size=${spillSize}&time_of_day=${timeOfDay}&wind_dir_deg=${wDir}&wind_speed_mph=${wSpd}&location=${encodeURIComponent(loc)}&use_live_weather=${useLiveWeather}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          p = await res.json();
+          if (useLiveWeather && p.wind_from_deg !== undefined) {
+            document.getElementById('plumeWindDir').value = Math.round(p.wind_from_deg);
+            document.getElementById('plumeWindSpeed').value = Math.round(p.wind_speed_mph);
+            document.getElementById('windDirLabel').textContent = `${Math.round(p.wind_from_deg)}° ${p.wind_from_cardinal}`;
+            document.getElementById('windSpdLabel').textContent = Math.round(p.wind_speed_mph);
+          }
+        }
+      } catch (err) {
+        // Offline client computation from offlineSnapshot
+        const c = (offlineSnapshot?.chemicals || allChemicalsCache).find(x => x.id === chemId) || allChemicalsCache[0];
+        if (c) {
+          const isLarge = spillSize === 'large';
+          const isNight = timeOfDay === 'night';
+          const isoM = isLarge ? (c.iso_large_night_m || 200) : (c.iso_small_day_m || 50);
+          const padKm = isLarge ? (c.iso_large_night_km || 0.5) : (c.iso_small_day_km || 0.1);
+          const downDeg = (wDir + 180) % 360;
+          p = {
+            chemical_id: c.id,
+            chemical_name: c.name,
+            un_number: c.un_number,
+            erg_guide: c.erg_guide,
+            location_label: loc + ' (Offline Computed)',
+            weather_source: 'offline_pwa_engine',
+            wind_from_deg: wDir,
+            wind_from_cardinal: degToCard(wDir),
+            wind_speed_mph: wSpd,
+            downwind_bearing_deg: downDeg,
+            downwind_cardinal: degToCard(downDeg),
+            recommended_staging_bearing_deg: wDir,
+            recommended_staging_cardinal: degToCard(wDir),
+            initial_isolation_m: isoM,
+            initial_isolation_ft: Math.round(isoM * 3.28084),
+            downwind_pad_km: padKm,
+            downwind_pad_mi: +(padKm * 0.621371).toFixed(2),
+            cone_half_angle_deg: 18,
+            vapor_density: c.vapor_density,
+            vapor_behavior: (c.vapor_density || 0) > 1.05 ? 'HEAVIER THAN AIR — Hugs ground/drains' : 'Buoyant/Neutral vapor',
+            water_reactive: !!c.water_reactive,
+            tactical_directive: `Stage UPWIND at ${wDir}° (${degToCard(wDir)}). Hot Zone ${isoM}m. Evacuate ${padKm} km DOWNWIND toward ${downDeg}° (${degToCard(downDeg)}).`
+          };
+        }
+      }
+      if (!p) return;
+      renderPlumeSvgAndMetrics(p);
+    }
+
+    function renderPlumeSvgAndMetrics(p) {
+      const cx = 180, cy = 180, rMax = 148;
+      // Convert meteorological bearing (0=N, 90=E) to SVG math radians (0=E, 90=S)
+      const downRad = ((p.downwind_bearing_deg - 90) * Math.PI) / 180;
+      const stageRad = ((p.recommended_staging_bearing_deg - 90) * Math.PI) / 180;
+      const halfAngle = ((p.cone_half_angle_deg || 18) * Math.PI) / 180;
+
+      const x1 = cx + rMax * Math.cos(downRad - halfAngle);
+      const y1 = cy + rMax * Math.sin(downRad - halfAngle);
+      const x2 = cx + rMax * Math.cos(downRad + halfAngle);
+      const y2 = cy + rMax * Math.sin(downRad + halfAngle);
+      const sx = cx + 92 * Math.cos(stageRad);
+      const sy = cy + 92 * Math.sin(stageRad);
+
+      const svg = `
+        <svg viewBox="0 0 360 360" class="w-full h-full">
+          <defs>
+            <radialGradient id="plumeGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ef4444" stop-opacity="0.75"/>
+              <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#eab308" stop-opacity="0.12"/>
+            </radialGradient>
+          </defs>
+          <circle cx="${cx}" cy="${cy}" r="155" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+          <circle cx="${cx}" cy="${cy}" r="115" fill="none" stroke="#1e293b" stroke-dasharray="4 4"/>
+          <circle cx="${cx}" cy="${cy}" r="75" fill="none" stroke="#1e293b" stroke-dasharray="4 4"/>
+          <line x1="${cx}" y1="20" x2="${cx}" y2="340" stroke="#1e293b" stroke-width="1"/>
+          <line x1="20" y1="${cy}" x2="340" y2="${cy}" stroke="#1e293b" stroke-width="1"/>
+          <text x="${cx}" y="16" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">N (0°)</text>
+          <text x="348" y="${cy+4}" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">E</text>
+          <text x="${cx}" y="355" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">S</text>
+          <text x="12" y="${cy+4}" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">W</text>
+
+          <!-- Downwind Plume Cone -->
+          <path d="M ${cx} ${cy} L ${x1.toFixed(1)} ${y1.toFixed(1)} A ${rMax} ${rMax} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} Z"
+                fill="url(#plumeGrad)" stroke="#f59e0b" stroke-width="2"/>
+
+          <!-- 360 Hot Zone Initial Isolation Circle -->
+          <circle cx="${cx}" cy="${cy}" r="36" fill="rgba(220,38,38,0.35)" stroke="#ef4444" stroke-width="2.5"/>
+          <circle cx="${cx}" cy="${cy}" r="5" fill="#ffffff"/>
+
+          <!-- Upwind Apparatus Staging Marker -->
+          <line x1="${cx}" y1="${cy}" x2="${sx.toFixed(1)}" y2="${sy.toFixed(1)}" stroke="#10b981" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="9" fill="#059669" stroke="#a7f3d0" stroke-width="2"/>
+          <text x="${sx.toFixed(1)}" y="${(sy - 13).toFixed(1)}" text-anchor="middle" fill="#6ee7b7" font-size="9" font-weight="bold">STAGE UPWIND</text>
+        </svg>
+      `;
+      document.getElementById('plumeSvgContainer').innerHTML = svg;
+
+      document.getElementById('plumeMetricsPanel').innerHTML = `
+        <div class="bg-red-950/40 border border-red-700/60 rounded-xl p-4">
+          <div class="text-xs font-mono uppercase text-red-400 font-bold">🚨 TACTICAL DIRECTIVE (${p.location_label})</div>
+          <div class="text-sm font-bold text-white mt-1">${p.tactical_directive}</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🔴 360° Hot Zone (Initial Isolation)</div>
+            <div class="text-2xl font-black text-red-400 font-mono mt-1">${p.initial_isolation_m} m <span class="text-sm text-slate-400">(${p.initial_isolation_ft} ft)</span></div>
+            <div class="text-[11px] text-slate-500 mt-0.5">ERG Guide #${p.erg_guide} • Full Level A/B PPE Inside</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🟠 Downwind Protective Action (PAD)</div>
+            <div class="text-2xl font-black text-amber-400 font-mono mt-1">${p.downwind_pad_km} km <span class="text-sm text-slate-400">(${p.downwind_pad_mi} mi)</span></div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Plume Bearing: ${p.downwind_bearing_deg}° (${p.downwind_cardinal})</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🟢 Upwind Apparatus Staging</div>
+            <div class="text-xl font-black text-emerald-400 font-mono mt-1">${p.recommended_staging_bearing_deg}° (${p.recommended_staging_cardinal})</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Wind FROM ${p.wind_from_deg}° @ ${p.wind_speed_mph} mph (${p.weather_source})</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">💨 Vapor Density & Water Rules</div>
+            <div class="text-xs font-bold ${p.water_reactive ? 'text-blue-400' : 'text-slate-200'} mt-1">${p.water_reactive ? '💧 WATER-REACTIVE (NO WATER!)' : 'Standard Water Fog OK'}</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">${p.vapor_behavior}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function openIcs208FromPlume() {
+      const sel = document.getElementById('plumeChemSelect');
+      const chemId = parseInt((sel && sel.value) || '10', 10);
+      await openIcs208Modal(chemId);
+    }
+
+    async function openIcs208Modal(chemId) {
+      const loc = document.getElementById('plumeLocation')?.value || 'Pueblo, CO';
+      const spillSize = document.getElementById('plumeSpillSize')?.value || 'large';
+      const timeOfDay = document.getElementById('plumeTimeOfDay')?.value || 'night';
+      const wDir = document.getElementById('plumeWindDir')?.value || '270';
+      const wSpd = document.getElementById('plumeWindSpeed')?.value || '12';
+      const res = await fetch(`/api/ics208/${chemId}?location=${encodeURIComponent(loc)}&spill_size=${spillSize}&time_of_day=${timeOfDay}&wind_dir_deg=${wDir}&wind_speed_mph=${wSpd}`);
+      const plan = await res.json();
+
+      const modal = document.getElementById('sdsModal');
+      const content = document.getElementById('sdsModalContent');
+      content.innerHTML = `
+        <div class="p-6 space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded text-xs font-mono font-bold">${plan.form}</span>
+              <h2 class="text-2xl font-black text-white mt-1">${plan.chemical.un_number} — ${plan.chemical.name}</h2>
+              <p class="text-xs text-slate-400 font-mono">Generated: ${plan.generated_utc} | Sector: ${plan.location} | ERG Guide #${plan.chemical.erg_guide}</p>
+            </div>
+            <div class="flex gap-2 no-print">
+              <button onclick="speakChemById(${plan.chemical.id})" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs">🔊 Speak 60s Brief</button>
+              <button onclick="window.print()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs">🖨️ Print / Save PDF</button>
+              <button onclick="closeModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs">✕ Close</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div class="bg-slate-950 border border-red-800/60 rounded-xl p-4 space-y-1.5">
+              <div class="text-xs font-bold text-red-400 uppercase">1. Control Zones & Evacuation</div>
+              <div><strong class="text-slate-300">Hot Zone (Exclusion):</strong> ${plan.control_zones.hot_zone_exclusion_radius_m} m (${plan.control_zones.hot_zone_exclusion_radius_ft} ft) 360°</div>
+              <div><strong class="text-slate-300">Downwind PAD:</strong> ${plan.control_zones.downwind_protective_action_km} km (${plan.control_zones.downwind_protective_action_mi} mi) toward ${plan.control_zones.downwind_plume_bearing_deg}° (${plan.control_zones.downwind_plume_cardinal})</div>
+              <div><strong class="text-slate-300">Warm Zone Decon:</strong> ${plan.control_zones.warm_zone_decon_corridor}</div>
+              <div><strong class="text-emerald-400">Apparatus Staging:</strong> ${plan.control_zones.apparatus_staging_vector}</div>
+            </div>
+            <div class="bg-slate-950 border border-blue-800/60 rounded-xl p-4 space-y-1.5">
+              <div class="text-xs font-bold text-blue-400 uppercase">2. PPE & Exposure Limits</div>
+              <div><strong class="text-slate-300">Entry Team PPE:</strong> ${plan.ppe_and_respiratory.entry_team_ppe}</div>
+              <div><strong class="text-slate-300">Respirator:</strong> ${plan.ppe_and_respiratory.respirator_requirement}</div>
+              <div><strong class="text-slate-300">OSHA PEL / NIOSH REL:</strong> ${plan.ppe_and_respiratory.osha_pel} / ${plan.ppe_and_respiratory.niosh_rel}</div>
+              <div><strong class="text-red-400">IDLH Ceiling:</strong> ${plan.ppe_and_respiratory.idlh}</div>
+            </div>
+            <div class="bg-slate-950 border border-amber-800/60 rounded-xl p-4 space-y-1.5 md:col-span-2">
+              <div class="text-xs font-bold text-amber-400 uppercase">3. Decon, Medical Triage & Countermeasures</div>
+              <div><strong class="text-slate-300">Decon Rule:</strong> ${plan.decon_and_medical.water_reactive_warning}</div>
+              <div><strong class="text-slate-300">Signs & Symptoms:</strong> ${plan.decon_and_medical.symptoms_to_monitor}</div>
+              <div><strong class="text-slate-300">First Aid Protocol:</strong> ${plan.decon_and_medical.first_aid_protocol}</div>
+              <div><strong class="text-emerald-400">Specific Antidote:</strong> ${plan.decon_and_medical.specific_antidote}</div>
+              <div><strong class="text-red-300">Fire Suppression:</strong> ${plan.decon_and_medical.fire_suppression}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+    }
+
+    // Hook into openSdsModal to add Speak 60s Brief, Print 16-Sec SDS, and FEMA ICS-208 buttons
+    const _origOpenSdsModal = openSdsModal;
+    openSdsModal = async function(chemId) {
+      await _origOpenSdsModal(chemId);
+      const content = document.getElementById('sdsModalContent');
+      if (content && !content.innerHTML.includes('speakChemById')) {
+        const actionToolbar = `
+          <div class="flex flex-wrap gap-2 px-6 pt-4 no-print">
+            <button onclick="speakChemById(${chemId})" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs">🔊 Speak 60s Tactical Brief</button>
+            <button onclick="openIcs208Modal(${chemId})" class="px-3.5 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg text-xs">📋 FEMA ICS-208 Safety Plan</button>
+            <button onclick="window.print()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs">🖨️ Print 16-Section OSHA SDS</button>
+          </div>
+        `;
+        content.insertAdjacentHTML('afterbegin', actionToolbar);
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initOfflinePwa();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const qParam = params.get('q');
+      if (qParam) {
+        const inp = document.getElementById('searchInput');
+        if (inp) {
+          inp.value = qParam;
+          setTimeout(() => runSearch(), 250);
+        }
+      }
+      const startTab = localStorage.getItem('wiser_start_tab');
+      if (startTab) {
+        localStorage.removeItem('wiser_start_tab');
+        setTimeout(() => switchTab(startTab), 200);
+      }
+    });
+
+
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest">
+    // === WISER 2.6 ENHANCEMENTS: OFFLINE PWA, VOICE RECON, TTS BRIEF, ERG PLUME CONE & FEMA ICS-208 ===
+    let offlineSnapshot = null;
+
+    async function initOfflinePwa() {
+      if ('serviceWorker' in navigator) {
+        try {
+          await navigator.serviceWorker.register('/sw.js');
+        } catch (e) {
+          console.warn('SW register warning:', e);
+        }
+      }
+      try {
+        const res = await fetch('/static/offline_db.json');
+        if (res.ok) {
+          offlineSnapshot = await res.json();
+          localStorage.setItem('wiser_offline_version', offlineSnapshot.version || '2.6.0');
+          populatePlumeSelector(offlineSnapshot.chemicals || []);
+          const badge = document.getElementById('pwaStatusBadge');
+          if (badge) badge.textContent = `📡 OFFLINE CACHE READY (${(offlineSnapshot.chemicals || []).length} CHEMS)`;
+        }
+      } catch (e) {
+        console.warn('Offline snapshot preload fallback:', e);
+      }
+    }
+
+    function populatePlumeSelector(chems) {
+      const sel = document.getElementById('plumeChemSelect');
+      if (!sel || !chems.length) return;
+      sel.innerHTML = chems.map(c => `<option value="${c.id}" ${c.un_number === '1017' ? 'selected' : ''}>UN${c.un_number} — ${c.name} (ERG ${c.erg_guide})</option>`).join('');
+    }
+
+    const _origSwitchTab = switchTab;
+    switchTab = function(tab) {
+      ['search', 'plume', 'identify', 'storage', 'reactivity'].forEach(t => {
+        const v = document.getElementById('view-' + t);
+        const b = document.getElementById('tab-' + t);
+        if (v) v.classList.toggle('hidden', t !== tab);
+        if (b) {
+          if (t === tab) {
+            b.className = "tab-active px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5";
+          } else {
+            b.className = "px-3 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5";
+          }
+        }
+      });
+      if (tab === 'plume') {
+        computePlume(false);
+      }
+    };
+
+    function toggleNightVision() {
+      document.body.classList.toggle('night-vision-mode');
+      const btn = document.getElementById('nightVisionBtn');
+      const on = document.body.classList.contains('night-vision-mode');
+      if (btn) btn.textContent = on ? '☀️ Normal Cab' : '🔴 Night Cab';
+    }
+
+    function startVoiceRecon() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        alert('Speech recognition is not supported in this browser. Type UN# or chemical name directly.');
+        return;
+      }
+      const rec = new SR();
+      rec.lang = 'en-US';
+      rec.interimResults = false;
+      rec.maxAlternatives = 1;
+      const btn = document.getElementById('voiceSearchBtn');
+      if (btn) btn.textContent = '🛑 Listening...';
+      rec.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.replace(/[^a-zA-Z0-9\s-]/g, '').trim();
+        document.getElementById('searchInput').value = transcript;
+        runSearch();
+      };
+      rec.onend = () => {
+        if (btn) btn.textContent = '🎙️ Voice';
+      };
+      rec.onerror = () => {
+        if (btn) btn.textContent = '🎙️ Voice';
+      };
+      rec.start();
+    }
+
+    function speakTacticalBrief(chem) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const waterMsg = chem.water_reactive ? 'CRITICAL WARNING: Substance is water reactive. Do not apply water directly.' : 'Water fog permissible per guide.';
+      const text = `WISER Tactical Briefing for U N ${chem.un_number}, ${chem.name}. ` +
+        `E R G Guide ${chem.erg_guide}. Hazard class ${chem.hazard_class}. ` +
+        `${waterMsg} ` +
+        `Initial isolation distance: ${chem.iso_small_day_m} meters for small daytime spill, expanding to ${chem.iso_large_night_m} meters and ${chem.iso_large_night_km} kilometers downwind at night. ` +
+        `Required P P E: ${chem.ppe_level}. ` +
+        `Specific clinical antidote: ${chem.antidote}.`;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 1.02;
+      window.speechSynthesis.speak(utter);
+    }
+
+    async function speakChemById(chemId) {
+      let chem = allChemicalsCache.find(c => c.id === chemId);
+      if (!chem && offlineSnapshot) {
+        chem = (offlineSnapshot.chemicals || []).find(c => c.id === chemId);
+      }
+      if (!chem) {
+        const res = await fetch(`/api/chemical/${chemId}`);
+        chem = await res.json();
+      }
+      if (chem) speakTacticalBrief(chem);
+    }
+
+    const CARDINAL_16 = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    function degToCard(d) {
+      return CARDINAL_16[Math.round(((d % 360) + 360) % 360 / 22.5) % 16];
+    }
+
+    async function computePlume(useLiveWeather) {
+      const sel = document.getElementById('plumeChemSelect');
+      const chemId = parseInt((sel && sel.value) || '10', 10);
+      const loc = document.getElementById('plumeLocation').value;
+      const spillSize = document.getElementById('plumeSpillSize').value;
+      const timeOfDay = document.getElementById('plumeTimeOfDay').value;
+      const wDir = parseFloat(document.getElementById('plumeWindDir').value || '270');
+      const wSpd = parseFloat(document.getElementById('plumeWindSpeed').value || '12');
+
+      document.getElementById('windDirLabel').textContent = `${Math.round(wDir)}° ${degToCard(wDir)}`;
+      document.getElementById('windSpdLabel').textContent = Math.round(wSpd);
+
+      let p = null;
+      try {
+        const url = `/api/plume?chem_id=${chemId}&spill_size=${spillSize}&time_of_day=${timeOfDay}&wind_dir_deg=${wDir}&wind_speed_mph=${wSpd}&location=${encodeURIComponent(loc)}&use_live_weather=${useLiveWeather}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          p = await res.json();
+          if (useLiveWeather && p.wind_from_deg !== undefined) {
+            document.getElementById('plumeWindDir').value = Math.round(p.wind_from_deg);
+            document.getElementById('plumeWindSpeed').value = Math.round(p.wind_speed_mph);
+            document.getElementById('windDirLabel').textContent = `${Math.round(p.wind_from_deg)}° ${p.wind_from_cardinal}`;
+            document.getElementById('windSpdLabel').textContent = Math.round(p.wind_speed_mph);
+          }
+        }
+      } catch (err) {
+        // Offline client computation from offlineSnapshot
+        const c = (offlineSnapshot?.chemicals || allChemicalsCache).find(x => x.id === chemId) || allChemicalsCache[0];
+        if (c) {
+          const isLarge = spillSize === 'large';
+          const isNight = timeOfDay === 'night';
+          const isoM = isLarge ? (c.iso_large_night_m || 200) : (c.iso_small_day_m || 50);
+          const padKm = isLarge ? (c.iso_large_night_km || 0.5) : (c.iso_small_day_km || 0.1);
+          const downDeg = (wDir + 180) % 360;
+          p = {
+            chemical_id: c.id,
+            chemical_name: c.name,
+            un_number: c.un_number,
+            erg_guide: c.erg_guide,
+            location_label: loc + ' (Offline Computed)',
+            weather_source: 'offline_pwa_engine',
+            wind_from_deg: wDir,
+            wind_from_cardinal: degToCard(wDir),
+            wind_speed_mph: wSpd,
+            downwind_bearing_deg: downDeg,
+            downwind_cardinal: degToCard(downDeg),
+            recommended_staging_bearing_deg: wDir,
+            recommended_staging_cardinal: degToCard(wDir),
+            initial_isolation_m: isoM,
+            initial_isolation_ft: Math.round(isoM * 3.28084),
+            downwind_pad_km: padKm,
+            downwind_pad_mi: +(padKm * 0.621371).toFixed(2),
+            cone_half_angle_deg: 18,
+            vapor_density: c.vapor_density,
+            vapor_behavior: (c.vapor_density || 0) > 1.05 ? 'HEAVIER THAN AIR — Hugs ground/drains' : 'Buoyant/Neutral vapor',
+            water_reactive: !!c.water_reactive,
+            tactical_directive: `Stage UPWIND at ${wDir}° (${degToCard(wDir)}). Hot Zone ${isoM}m. Evacuate ${padKm} km DOWNWIND toward ${downDeg}° (${degToCard(downDeg)}).`
+          };
+        }
+      }
+      if (!p) return;
+      renderPlumeSvgAndMetrics(p);
+    }
+
+    function renderPlumeSvgAndMetrics(p) {
+      const cx = 180, cy = 180, rMax = 148;
+      // Convert meteorological bearing (0=N, 90=E) to SVG math radians (0=E, 90=S)
+      const downRad = ((p.downwind_bearing_deg - 90) * Math.PI) / 180;
+      const stageRad = ((p.recommended_staging_bearing_deg - 90) * Math.PI) / 180;
+      const halfAngle = ((p.cone_half_angle_deg || 18) * Math.PI) / 180;
+
+      const x1 = cx + rMax * Math.cos(downRad - halfAngle);
+      const y1 = cy + rMax * Math.sin(downRad - halfAngle);
+      const x2 = cx + rMax * Math.cos(downRad + halfAngle);
+      const y2 = cy + rMax * Math.sin(downRad + halfAngle);
+      const sx = cx + 92 * Math.cos(stageRad);
+      const sy = cy + 92 * Math.sin(stageRad);
+
+      const svg = `
+        <svg viewBox="0 0 360 360" class="w-full h-full">
+          <defs>
+            <radialGradient id="plumeGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ef4444" stop-opacity="0.75"/>
+              <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#eab308" stop-opacity="0.12"/>
+            </radialGradient>
+          </defs>
+          <circle cx="${cx}" cy="${cy}" r="155" fill="#090d16" stroke="#1e293b" stroke-width="2"/>
+          <circle cx="${cx}" cy="${cy}" r="115" fill="none" stroke="#1e293b" stroke-dasharray="4 4"/>
+          <circle cx="${cx}" cy="${cy}" r="75" fill="none" stroke="#1e293b" stroke-dasharray="4 4"/>
+          <line x1="${cx}" y1="20" x2="${cx}" y2="340" stroke="#1e293b" stroke-width="1"/>
+          <line x1="20" y1="${cy}" x2="340" y2="${cy}" stroke="#1e293b" stroke-width="1"/>
+          <text x="${cx}" y="16" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">N (0°)</text>
+          <text x="348" y="${cy+4}" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">E</text>
+          <text x="${cx}" y="355" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">S</text>
+          <text x="12" y="${cy+4}" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="bold">W</text>
+
+          <!-- Downwind Plume Cone -->
+          <path d="M ${cx} ${cy} L ${x1.toFixed(1)} ${y1.toFixed(1)} A ${rMax} ${rMax} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} Z"
+                fill="url(#plumeGrad)" stroke="#f59e0b" stroke-width="2"/>
+
+          <!-- 360 Hot Zone Initial Isolation Circle -->
+          <circle cx="${cx}" cy="${cy}" r="36" fill="rgba(220,38,38,0.35)" stroke="#ef4444" stroke-width="2.5"/>
+          <circle cx="${cx}" cy="${cy}" r="5" fill="#ffffff"/>
+
+          <!-- Upwind Apparatus Staging Marker -->
+          <line x1="${cx}" y1="${cy}" x2="${sx.toFixed(1)}" y2="${sy.toFixed(1)}" stroke="#10b981" stroke-width="2" stroke-dasharray="3 3"/>
+          <circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="9" fill="#059669" stroke="#a7f3d0" stroke-width="2"/>
+          <text x="${sx.toFixed(1)}" y="${(sy - 13).toFixed(1)}" text-anchor="middle" fill="#6ee7b7" font-size="9" font-weight="bold">STAGE UPWIND</text>
+        </svg>
+      `;
+      document.getElementById('plumeSvgContainer').innerHTML = svg;
+
+      document.getElementById('plumeMetricsPanel').innerHTML = `
+        <div class="bg-red-950/40 border border-red-700/60 rounded-xl p-4">
+          <div class="text-xs font-mono uppercase text-red-400 font-bold">🚨 TACTICAL DIRECTIVE (${p.location_label})</div>
+          <div class="text-sm font-bold text-white mt-1">${p.tactical_directive}</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🔴 360° Hot Zone (Initial Isolation)</div>
+            <div class="text-2xl font-black text-red-400 font-mono mt-1">${p.initial_isolation_m} m <span class="text-sm text-slate-400">(${p.initial_isolation_ft} ft)</span></div>
+            <div class="text-[11px] text-slate-500 mt-0.5">ERG Guide #${p.erg_guide} • Full Level A/B PPE Inside</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🟠 Downwind Protective Action (PAD)</div>
+            <div class="text-2xl font-black text-amber-400 font-mono mt-1">${p.downwind_pad_km} km <span class="text-sm text-slate-400">(${p.downwind_pad_mi} mi)</span></div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Plume Bearing: ${p.downwind_bearing_deg}° (${p.downwind_cardinal})</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">🟢 Upwind Apparatus Staging</div>
+            <div class="text-xl font-black text-emerald-400 font-mono mt-1">${p.recommended_staging_bearing_deg}° (${p.recommended_staging_cardinal})</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Wind FROM ${p.wind_from_deg}° @ ${p.wind_speed_mph} mph (${p.weather_source})</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5">
+            <div class="text-[11px] text-slate-400 font-bold uppercase">💨 Vapor Density & Water Rules</div>
+            <div class="text-xs font-bold ${p.water_reactive ? 'text-blue-400' : 'text-slate-200'} mt-1">${p.water_reactive ? '💧 WATER-REACTIVE (NO WATER!)' : 'Standard Water Fog OK'}</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">${p.vapor_behavior}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function openIcs208FromPlume() {
+      const sel = document.getElementById('plumeChemSelect');
+      const chemId = parseInt((sel && sel.value) || '10', 10);
+      await openIcs208Modal(chemId);
+    }
+
+    async function openIcs208Modal(chemId) {
+      const loc = document.getElementById('plumeLocation')?.value || 'Pueblo, CO';
+      const spillSize = document.getElementById('plumeSpillSize')?.value || 'large';
+      const timeOfDay = document.getElementById('plumeTimeOfDay')?.value || 'night';
+      const wDir = document.getElementById('plumeWindDir')?.value || '270';
+      const wSpd = document.getElementById('plumeWindSpeed')?.value || '12';
+      const res = await fetch(`/api/ics208/${chemId}?location=${encodeURIComponent(loc)}&spill_size=${spillSize}&time_of_day=${timeOfDay}&wind_dir_deg=${wDir}&wind_speed_mph=${wSpd}`);
+      const plan = await res.json();
+
+      const modal = document.getElementById('sdsModal');
+      const content = document.getElementById('sdsModalContent');
+      content.innerHTML = `
+        <div class="p-6 space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded text-xs font-mono font-bold">${plan.form}</span>
+              <h2 class="text-2xl font-black text-white mt-1">${plan.chemical.un_number} — ${plan.chemical.name}</h2>
+              <p class="text-xs text-slate-400 font-mono">Generated: ${plan.generated_utc} | Sector: ${plan.location} | ERG Guide #${plan.chemical.erg_guide}</p>
+            </div>
+            <div class="flex gap-2 no-print">
+              <button onclick="speakChemById(${plan.chemical.id})" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs">🔊 Speak 60s Brief</button>
+              <button onclick="window.print()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs">🖨️ Print / Save PDF</button>
+              <button onclick="closeModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs">✕ Close</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div class="bg-slate-950 border border-red-800/60 rounded-xl p-4 space-y-1.5">
+              <div class="text-xs font-bold text-red-400 uppercase">1. Control Zones & Evacuation</div>
+              <div><strong class="text-slate-300">Hot Zone (Exclusion):</strong> ${plan.control_zones.hot_zone_exclusion_radius_m} m (${plan.control_zones.hot_zone_exclusion_radius_ft} ft) 360°</div>
+              <div><strong class="text-slate-300">Downwind PAD:</strong> ${plan.control_zones.downwind_protective_action_km} km (${plan.control_zones.downwind_protective_action_mi} mi) toward ${plan.control_zones.downwind_plume_bearing_deg}° (${plan.control_zones.downwind_plume_cardinal})</div>
+              <div><strong class="text-slate-300">Warm Zone Decon:</strong> ${plan.control_zones.warm_zone_decon_corridor}</div>
+              <div><strong class="text-emerald-400">Apparatus Staging:</strong> ${plan.control_zones.apparatus_staging_vector}</div>
+            </div>
+            <div class="bg-slate-950 border border-blue-800/60 rounded-xl p-4 space-y-1.5">
+              <div class="text-xs font-bold text-blue-400 uppercase">2. PPE & Exposure Limits</div>
+              <div><strong class="text-slate-300">Entry Team PPE:</strong> ${plan.ppe_and_respiratory.entry_team_ppe}</div>
+              <div><strong class="text-slate-300">Respirator:</strong> ${plan.ppe_and_respiratory.respirator_requirement}</div>
+              <div><strong class="text-slate-300">OSHA PEL / NIOSH REL:</strong> ${plan.ppe_and_respiratory.osha_pel} / ${plan.ppe_and_respiratory.niosh_rel}</div>
+              <div><strong class="text-red-400">IDLH Ceiling:</strong> ${plan.ppe_and_respiratory.idlh}</div>
+            </div>
+            <div class="bg-slate-950 border border-amber-800/60 rounded-xl p-4 space-y-1.5 md:col-span-2">
+              <div class="text-xs font-bold text-amber-400 uppercase">3. Decon, Medical Triage & Countermeasures</div>
+              <div><strong class="text-slate-300">Decon Rule:</strong> ${plan.decon_and_medical.water_reactive_warning}</div>
+              <div><strong class="text-slate-300">Signs & Symptoms:</strong> ${plan.decon_and_medical.symptoms_to_monitor}</div>
+              <div><strong class="text-slate-300">First Aid Protocol:</strong> ${plan.decon_and_medical.first_aid_protocol}</div>
+              <div><strong class="text-emerald-400">Specific Antidote:</strong> ${plan.decon_and_medical.specific_antidote}</div>
+              <div><strong class="text-red-300">Fire Suppression:</strong> ${plan.decon_and_medical.fire_suppression}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+    }
+
+    // Hook into openSdsModal to add Speak 60s Brief, Print 16-Sec SDS, and FEMA ICS-208 buttons
+    const _origOpenSdsModal = openSdsModal;
+    openSdsModal = async function(chemId) {
+      await _origOpenSdsModal(chemId);
+      const content = document.getElementById('sdsModalContent');
+      if (content && !content.innerHTML.includes('speakChemById')) {
+        const actionToolbar = `
+          <div class="flex flex-wrap gap-2 px-6 pt-4 no-print">
+            <button onclick="speakChemById(${chemId})" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs">🔊 Speak 60s Tactical Brief</button>
+            <button onclick="openIcs208Modal(${chemId})" class="px-3.5 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg text-xs">📋 FEMA ICS-208 Safety Plan</button>
+            <button onclick="window.print()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs">🖨️ Print 16-Section OSHA SDS</button>
+          </div>
+        `;
+        content.insertAdjacentHTML('afterbegin', actionToolbar);
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initOfflinePwa();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const qParam = params.get('q');
+      if (qParam) {
+        const inp = document.getElementById('searchInput');
+        if (inp) {
+          inp.value = qParam;
+          setTimeout(() => runSearch(), 250);
+        }
+      }
+      const startTab = localStorage.getItem('wiser_start_tab');
+      if (startTab) {
+        localStorage.removeItem('wiser_start_tab');
+        setTimeout(() => switchTab(startTab), 200);
+      }
+    });
+
+
+  </script>
+</body>
+</html>

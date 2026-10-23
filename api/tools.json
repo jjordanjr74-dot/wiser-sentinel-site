@@ -1,0 +1,87 @@
+{
+  "schema_version": "webmcp-1.0",
+  "service": "WISER Reborn 2.6: Ultimate HazMat, Plume, CAMEO Reactivity & SDS Sentinel",
+  "version": "2.6.0",
+  "offline_snapshot_url": "/static/offline_db.json",
+  "tools": [
+    {
+      "name": "search_hazmat_chemicals",
+      "description": "Search 62+ hazardous chemicals by Name, UN/NA 4-digit placard number, CAS number, synonym, or category (Automotive, Retail/Consumer, Industrial, Warehouse, CBRN/Warfare).",
+      "method": "GET",
+      "path": "/api/search",
+      "parameters": {
+        "q": "string (e.g. '1017', 'Chlorine', 'Fentanyl')",
+        "category": "ALL | Automotive | Retail/Consumer | Industrial | Warehouse | CBRN/Warfare"
+      }
+    },
+    {
+      "name": "get_full_16_section_osha_sds",
+      "description": "Retrieve complete OSHA HazCom 2012 16-section Safety Data Sheet (SDS), NFPA 704 ratings, NIOSH/OSHA/IDLH limits, and clinical antidote for a chemical ID.",
+      "method": "GET",
+      "path": "/api/sds/{chem_id}",
+      "parameters": {
+        "chem_id": "integer"
+      }
+    },
+    {
+      "name": "calculate_erg_wind_plume",
+      "description": "Calculate ERG 2024 Initial Isolation Zone (Hot Zone), Downwind Protective Action Distance (PAD) cone, and Upwind Apparatus Staging compass vector using live Open-Meteo wind or manual wind inputs.",
+      "method": "GET",
+      "path": "/api/plume",
+      "parameters": {
+        "chem_id": "integer",
+        "spill_size": "small | large",
+        "time_of_day": "day | night",
+        "wind_dir_deg": "float (0-360)",
+        "wind_speed_mph": "float",
+        "location": "string (e.g. 'Pueblo, CO')",
+        "use_live_weather": "boolean"
+      }
+    },
+    {
+      "name": "evaluate_cameo_reactivity",
+      "description": "Evaluate NOAA CAMEO binary chemical reactivity, toxic gas generation (HCN, Cl2, NH2Cl, H2S, HF, Phosgene), and explosion hazards when two chemicals mix.",
+      "method": "GET",
+      "path": "/api/reactivity",
+      "parameters": {
+        "id1": "integer",
+        "id2": "integer"
+      }
+    },
+    {
+      "name": "check_warehouse_storage_segregation",
+      "description": "Check OSHA/GHS warehouse & shop cabinet storage compatibility between two chemicals across 25 segregation rules.",
+      "method": "GET",
+      "path": "/api/storage/check",
+      "parameters": {
+        "id1": "integer",
+        "id2": "integer"
+      }
+    },
+    {
+      "name": "generate_fema_ics208_safety_plan",
+      "description": "Generate a print-ready FEMA ICS-208 HazMat Site Safety and Control Plan with Hot/Warm/Cold zones, PPE, decon, and medical countermeasures.",
+      "method": "GET",
+      "path": "/api/ics208/{chem_id}",
+      "parameters": {
+        "chem_id": "integer",
+        "incident_name": "string",
+        "spill_size": "small | large",
+        "time_of_day": "day | night",
+        "location": "string"
+      }
+    },
+    {
+      "name": "identify_unknown_spill_by_symptoms",
+      "description": "Reverse-identify an unknown chemical release from observed odor, vapor/liquid color, physical state, and patient toxidrome symptoms.",
+      "method": "GET",
+      "path": "/api/identify",
+      "parameters": {
+        "odor": "string",
+        "color": "string",
+        "symptom": "string",
+        "state": "string"
+      }
+    }
+  ]
+}
