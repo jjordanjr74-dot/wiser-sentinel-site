@@ -84,9 +84,21 @@
       <button onclick="switchTab('niosh')" id="tab-niosh" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
         <i data-lucide="activity" class="w-4 h-4 mr-1.5"></i> NIOSH Pocket Limits
       </button>
-      <button onclick="switchTab('reactivity')" id="tab-reactivity" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
-        <i data-lucide="flask-conical" class="w-4 h-4 mr-1.5"></i> Chemical Mixing Matrix
+      <button onclick="switchTab('plume')" id="tab-plume" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-amber-300 hover:text-white hover:bg-slate-800 transition">
+        🌬️ ERG 2024 Plume Cone
       </button>
+      <button onclick="switchTab('reactivity')" id="tab-reactivity" class="tab-btn px-4 py-2 rounded-xl font-bold text-xs sm:text-sm flex items-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
+        <i data-lucide="flask-conical" class="w-4 h-4 mr-1.5"></i> CAMEO Reactivity (18)
+      </button>
+      <button id="pwaInstallBtn" onclick="installWiserApp()" class="px-3.5 py-2 rounded-xl font-black text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition flex items-center shrink-0">
+        📲 Install App
+      </button>
+      <button onclick="toggleNightVision()" id="nightVisionBtn" class="px-3.5 py-2 rounded-xl font-bold text-xs bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-700/60 transition flex items-center shrink-0">
+        🔴 Night Cab
+      </button>
+      <a href="../" class="px-3.5 py-2 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center shrink-0">
+        🌐 Website
+      </a>
     </div>
   </div>
 
@@ -105,9 +117,14 @@
                  placeholder="Type UN# (e.g. 1017, 3480), or Product (Brake Cleaner, Bleach, Lithium, Sarin)..." 
                  class="w-full bg-slate-950 border-2 border-slate-700 focus:border-amber-500 rounded-2xl px-5 py-4 pl-12 text-base sm:text-lg font-bold text-white placeholder-slate-600 focus:outline-none transition shadow-inner">
           <i data-lucide="search" class="w-6 h-6 text-slate-500 absolute left-4 top-4.5"></i>
-          <button onclick="performSearch()" class="absolute right-2.5 top-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 px-6 py-2.5 rounded-xl font-black text-xs sm:text-sm transition flex items-center shadow-md">
-            SEARCH
-          </button>
+          <div class="absolute right-2.5 top-2.5 flex gap-1.5">
+            <button onclick="startVoiceRecon()" id="voiceSearchBtn" title="Hands-Free First-60-Seconds Voice UN# Lookup" class="bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 px-3.5 py-2.5 rounded-xl font-black text-xs sm:text-sm transition flex items-center shadow-md">
+              🎙️ Voice
+            </button>
+            <button onclick="performSearch()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-5 py-2.5 rounded-xl font-black text-xs sm:text-sm transition flex items-center shadow-md">
+              SEARCH
+            </button>
+          </div>
         </div>
         
         <!-- Category Filter Pills -->
@@ -127,6 +144,80 @@
         <div id="cards-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5"></div>
       </div>
     </section>
+
+    <!-- TAB 1.5: ERG 2024 PLUME & WIND CONE CALCULATOR -->
+    <section id="view-plume" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+          <div>
+            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded text-xs font-mono font-bold">ERG 2024 TABLE 1 + LIVE OPEN-METEO WIND</span>
+            <h2 class="text-xl font-black text-white mt-2">🌬️ Downwind Protective Action Distance (PAD) & Apparatus Staging Cone</h2>
+            <p class="text-sm text-slate-400">Calculate 360° Hot Zone Isolation, Downwind Evacuation Plume Cone, and Upwind Apparatus Staging bearing for Southern Colorado corridor or offline manual wind.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="computePlume(true)" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition shadow-lg">
+              🛰️ Fetch Live Corridor Wind & Compute
+            </button>
+            <button onclick="openIcs208FromPlume()" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs transition shadow-lg">
+              📋 Generate FEMA ICS-208 Plan
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+          <div class="lg:col-span-2">
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Substance / UN Placard</label>
+            <select id="plumeChemSelect" onchange="computePlume(false)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs font-semibold"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Corridor Sector</label>
+            <select id="plumeLocation" onchange="computePlume(false)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs">
+              <option value="Pueblo, CO">Pueblo, CO (I-25 / US-50)</option>
+              <option value="Pueblo West, CO">Pueblo West, CO (US-50)</option>
+              <option value="Colorado Springs, CO">Colorado Springs, CO (I-25)</option>
+              <option value="Fountain, CO">Fountain, CO (I-25 Rail Corridor)</option>
+              <option value="Cañon City, CO">Cañon City, CO (US-50 Gorge)</option>
+              <option value="Monument, CO">Monument, CO (Palmer Divide)</option>
+              <option value="Castle Rock, CO">Castle Rock, CO (I-25)</option>
+              <option value="Walsenburg, CO">Walsenburg, CO (I-25 / US-160)</option>
+              <option value="Trinidad, CO">Trinidad, CO (Raton Pass)</option>
+              <option value="La Junta, CO">La Junta, CO (US-50 / BNSF Yard)</option>
+              <option value="Salida, CO">Salida, CO (US-50 / US-285)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Spill Volume</label>
+            <select id="plumeSpillSize" onchange="computePlume(false)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs">
+              <option value="large" selected>Large Spill (>208 L / Tanker / Rail)</option>
+              <option value="small">Small Spill (≤208 L / Drum / Cylinder)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Atmospheric Stability</label>
+            <select id="plumeTimeOfDay" onchange="computePlume(false)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs">
+              <option value="night" selected>🌙 Nighttime (Thermal Inversion)</option>
+              <option value="day">☀️ Daytime (Solar Mixing)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Wind FROM (<span id="windDirLabel">270° W</span> @ <span id="windSpdLabel">12</span> mph)</label>
+            <div class="flex gap-2 items-center">
+              <input id="plumeWindDir" type="range" min="0" max="359" value="270" oninput="computePlume(false)" class="w-full accent-amber-500" />
+              <input id="plumeWindSpeed" type="number" min="1" max="85" value="12" onchange="computePlume(false)" class="w-16 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-white text-xs font-mono text-center" />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-6 bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col items-center">
+            <div id="plumeSvgContainer" class="w-full max-w-[380px] aspect-square flex items-center justify-center"></div>
+            <p class="text-[11px] text-slate-400 font-mono mt-2 text-center">Red Circle = 360° Initial Isolation Hot Zone | Amber Cone = Downwind PAD | Green Circle = Upwind Apparatus Staging</p>
+          </div>
+          <div id="plumeMetricsPanel" class="lg:col-span-6 space-y-4"></div>
+        </div>
+      </div>
+    </section>
+
 
     <!-- TAB 2: SYMPTOM & ODOR WIZARD -->
     <section id="view-wizard" class="hidden space-y-6">
@@ -729,7 +820,7 @@
 
     const _origSwitchTab = switchTab;
     switchTab = function(tab) {
-      ['search', 'plume', 'identify', 'storage', 'reactivity'].forEach(t => {
+      ['search', 'plume', 'wizard', 'storage', 'niosh', 'reactivity'].forEach(t => {
         const v = document.getElementById('view-' + t);
         const b = document.getElementById('tab-' + t);
         if (v) v.classList.toggle('hidden', t !== tab);
@@ -767,8 +858,8 @@
       if (btn) btn.textContent = '🛑 Listening...';
       rec.onresult = (event) => {
         const transcript = event.results[0][0].transcript.replace(/[^a-zA-Z0-9\s-]/g, '').trim();
-        document.getElementById('searchInput').value = transcript;
-        runSearch();
+        document.getElementById('search-input').value = transcript;
+        performSearch();
       };
       rec.onend = () => {
         if (btn) btn.textContent = '🎙️ Voice';
@@ -1039,10 +1130,10 @@
       const params = new URLSearchParams(window.location.search);
       const qParam = params.get('q');
       if (qParam) {
-        const inp = document.getElementById('searchInput');
+        const inp = document.getElementById('search-input');
         if (inp) {
           inp.value = qParam;
-          setTimeout(() => runSearch(), 250);
+          setTimeout(() => performSearch(), 250);
         }
       }
       const startTab = localStorage.getItem('wiser_start_tab');
@@ -1087,7 +1178,7 @@
 
     const _origSwitchTab = switchTab;
     switchTab = function(tab) {
-      ['search', 'plume', 'identify', 'storage', 'reactivity'].forEach(t => {
+      ['search', 'plume', 'wizard', 'storage', 'niosh', 'reactivity'].forEach(t => {
         const v = document.getElementById('view-' + t);
         const b = document.getElementById('tab-' + t);
         if (v) v.classList.toggle('hidden', t !== tab);
@@ -1125,8 +1216,8 @@
       if (btn) btn.textContent = '🛑 Listening...';
       rec.onresult = (event) => {
         const transcript = event.results[0][0].transcript.replace(/[^a-zA-Z0-9\s-]/g, '').trim();
-        document.getElementById('searchInput').value = transcript;
-        runSearch();
+        document.getElementById('search-input').value = transcript;
+        performSearch();
       };
       rec.onend = () => {
         if (btn) btn.textContent = '🎙️ Voice';
@@ -1397,10 +1488,10 @@
       const params = new URLSearchParams(window.location.search);
       const qParam = params.get('q');
       if (qParam) {
-        const inp = document.getElementById('searchInput');
+        const inp = document.getElementById('search-input');
         if (inp) {
           inp.value = qParam;
-          setTimeout(() => runSearch(), 250);
+          setTimeout(() => performSearch(), 250);
         }
       }
       const startTab = localStorage.getItem('wiser_start_tab');
@@ -1447,7 +1538,7 @@
 
     const _origSwitchTab = switchTab;
     switchTab = function(tab) {
-      ['search', 'plume', 'identify', 'storage', 'reactivity'].forEach(t => {
+      ['search', 'plume', 'wizard', 'storage', 'niosh', 'reactivity'].forEach(t => {
         const v = document.getElementById('view-' + t);
         const b = document.getElementById('tab-' + t);
         if (v) v.classList.toggle('hidden', t !== tab);
@@ -1485,8 +1576,8 @@
       if (btn) btn.textContent = '🛑 Listening...';
       rec.onresult = (event) => {
         const transcript = event.results[0][0].transcript.replace(/[^a-zA-Z0-9\s-]/g, '').trim();
-        document.getElementById('searchInput').value = transcript;
-        runSearch();
+        document.getElementById('search-input').value = transcript;
+        performSearch();
       };
       rec.onend = () => {
         if (btn) btn.textContent = '🎙️ Voice';
@@ -1757,10 +1848,10 @@
       const params = new URLSearchParams(window.location.search);
       const qParam = params.get('q');
       if (qParam) {
-        const inp = document.getElementById('searchInput');
+        const inp = document.getElementById('search-input');
         if (inp) {
           inp.value = qParam;
-          setTimeout(() => runSearch(), 250);
+          setTimeout(() => performSearch(), 250);
         }
       }
       const startTab = localStorage.getItem('wiser_start_tab');
