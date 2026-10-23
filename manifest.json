@@ -10,15 +10,15 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='24' fill='%230b0f17'/%3E%3Cpolygon points='64,12 116,64 64,116 12,64' fill='none' stroke='%23f59e0b' stroke-width='6'/%3E%3Cpolygon points='64,20 88,44 64,68 40,44' fill='%23ef4444'/%3E%3Cpolygon points='40,44 64,68 40,92 16,68' fill='%233b82f6'/%3E%3Cpolygon points='88,44 112,68 88,92 64,68' fill='%23eab308'/%3E%3Cpolygon points='64,68 88,92 64,112 40,92' fill='%23f8fafc'/%3E%3C/svg%3E",
+      "src": "./static/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%230b0f17'/%3E%3Cpolygon points='256,48 464,256 256,464 48,256' fill='none' stroke='%23f59e0b' stroke-width='24'/%3E%3Cpolygon points='256,80 352,176 256,272 160,176' fill='%23ef4444'/%3E%3Cpolygon points='160,176 256,272 160,368 64,272' fill='%233b82f6'/%3E%3Cpolygon points='352,176 448,272 352,368 256,272' fill='%23eab308'/%3E%3Cpolygon points='256,272 352,368 256,448 160,368' fill='%23f8fafc'/%3E%3C/svg%3E",
+      "src": "./static/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

@@ -3,484 +3,550 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WISER 2.6 Sentinel — Plataforma Táctica HazMat, Pluma ERG 2024, CAMEO y SDS OSHA (100% Offline)</title>
-  <meta name="description" content="Reemplazo moderno y 100% offline de NIH/NLM WISER para Bomberos, Equipos HazMat, Talleres Automotrices y Almacenes en Pueblo, Colorado Springs y todo EE. UU. 90 sustancias, Pluma ERG 2024 con viento en vivo, Reactividad CAMEO y planes FEMA ICS-208." />
+  <title>WISER 2.6 SENTINEL — Plataforma Táctica HazMat, Pluma ERG 2024, CAMEO y Carpetas SDS OSHA</title>
+  <meta name="description" content="Sucesor moderno 100% offline de NIH/NLM WISER para Bomberos/HazMat, Talleres Automotrices y Almacenes. 90 sustancias, Pluma ERG 2024 en vivo, Reactividad CAMEO, Planes FEMA ICS-208 y Auditoría OSHA 29 CFR 1910.1200." />
   <link rel="canonical" href="https://jjordanjr74-dot.github.io/wiser-sentinel-site/es/" />
   <link rel="manifest" href="../manifest.json" />
+  <link rel="apple-touch-icon" href="../static/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../static/icon-192.png" />
   <meta name="theme-color" content="#dc2626" />
-  <meta property="og:title" content="WISER 2.6 Sentinel — Plataforma Táctica HazMat, Pluma ERG 2024, CAMEO y SDS OSHA (100% Offline)" />
-  <meta property="og:description" content="Reemplazo moderno y 100% offline de NIH/NLM WISER para Bomberos, Equipos HazMat, Talleres Automotrices y Almacenes en Pueblo, Colorado Springs y todo EE. UU. 90 sustancias, Pluma ERG 2024 con viento en vivo, Reactividad CAMEO y planes FEMA ICS-208." />
+  <meta property="og:title" content="WISER 2.6 SENTINEL — Plataforma Táctica HazMat, Pluma ERG 2024, CAMEO y Carpetas SDS OSHA" />
+  <meta property="og:description" content="Sucesor moderno 100% offline de NIH/NLM WISER para Bomberos/HazMat, Talleres Automotrices y Almacenes. 90 sustancias, Pluma ERG 2024 en vivo, Reactividad CAMEO, Planes FEMA ICS-208 y Auditoría OSHA 29 CFR 1910.1200." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://jjordanjr74-dot.github.io/wiser-sentinel-site/es/" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta property="og:image" content="https://jjordanjr74-dot.github.io/wiser-sentinel-site/static/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WISER 2.6 SENTINEL — Plataforma Táctica HazMat, Pluma ERG 2024, CAMEO y Carpetas SDS OSHA" />
+  <meta name="twitter:description" content="Sucesor moderno 100% offline de NIH/NLM WISER para Bomberos/HazMat, Talleres Automotrices y Almacenes. 90 sustancias, Pluma ERG 2024 en vivo, Reactividad CAMEO, Planes FEMA ICS-208 y Auditoría OSHA 29 CFR 1910.1200." />
+  <meta name="twitter:image" content="https://jjordanjr74-dot.github.io/wiser-sentinel-site/static/og-card.png" />
+  <link rel="stylesheet" href="../static/wiser.css" />
   <script src="../static/wiser_standalone.js"></script>
 </head>
-<body class="bg-[#060911] text-slate-100 antialiased selection:bg-red-600 selection:text-white">
-  <!-- Top Tactical Alert Ribbon -->
-  <div class="bg-gradient-to-r from-red-950 via-slate-900 to-amber-950 border-b border-red-500/30 px-4 py-2 text-center text-xs font-mono">
-    <span class="text-amber-300 font-bold">⚡ NIH/NLM WISER SUCCESSOR (v2.6):</span>
-    <span>100% Offline PWA • 90 Sustancias • Cono de Pluma ERG 2024 + Viento en Vivo • Matriz CAMEO • Planes FEMA ICS-208</span>
+<body class="bg-[#060911] text-slate-100 antialiased tactical-grid-bg selection:bg-red-600 selection:text-white">
+  <!-- Telemetry Status Ribbon -->
+  <div class="bg-slate-950 border-b border-red-500/40 px-3 py-2 text-center text-[11px] font-mono">
+    <span class="text-amber-400 font-bold">⚡ WISER 2.6 DEFENSE & OSHA SENTINEL:</span>
+    <span class="text-slate-300">100% Offline PWA • 90 Sustancias • Cono Pluma ERG 2024 • CAMEO (18) • Auditoría OSHA Taller (25)</span>
   </div>
 
-  <!-- Header Navigation -->
-  <header class="sticky top-0 z-40 bg-[#0b101b]/95 backdrop-blur-md border-b border-slate-800 px-4 lg:px-8 py-4">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-      <a href="./" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 via-amber-500 to-blue-600 p-0.5 shadow-lg">
-          <div class="w-full h-full bg-slate-950 rounded-[6px] flex items-center justify-center font-black text-sm tracking-tighter text-white">704</div>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-black text-lg tracking-tight text-white">WISER <span class="text-red-500">2.6</span> SENTINEL</span>
-            <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 rounded">PWA + WebMCP</span>
+  <!-- Masthead Navigation (390px Mobile-Reachable, >=44px Tap Targets) -->
+  <header class="sticky top-0 z-40 bg-[#080d19]/95 backdrop-blur border-b border-slate-800 px-3 sm:px-6 lg:px-8 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex items-center justify-between">
+        <a href="./" class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded bg-gradient-to-br from-red-600 via-amber-500 to-blue-600 p-0.5 shadow-lg shrink-0">
+            <div class="w-full h-full bg-slate-950 flex items-center justify-center font-mono font-black text-xs text-white">704</div>
           </div>
-          <p class="text-xs text-slate-400">ERG 2024 • NIOSH Pocket Guide • NOAA CAMEO • OSHA HazCom 2012</p>
-        </div>
-      </a>
-
-      <div class="flex flex-wrap items-center gap-2.5">
-        <a href="#features" class="px-3 py-2 text-xs font-bold text-slate-300 hover:text-white transition">Capacidades</a>
-        <a href="#corridor" class="px-3 py-2 text-xs font-bold text-slate-300 hover:text-white transition">Corredor Sur CO</a>
-        <a href="#catalog" class="px-3 py-2 text-xs font-bold text-slate-300 hover:text-white transition">Catálogo UN# (90)</a>
-        <a href="../" class="px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 hover:border-slate-500 transition">🇺🇸 English</a>
-        <button onclick="installWiserApp()" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-lg transition">
-          📲 Instalar App Offline
-        </button>
-        <a href="../app/" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs shadow-lg shadow-red-600/30 transition">
-          🚨 ABRIR APP TÁCTICA →
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-black text-base sm:text-lg tracking-tight text-white">WISER <span class="text-red-500">2.6</span> SENTINEL</span>
+              <span class="px-1.5 py-0.5 text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 rounded">OFFLINE PWA</span>
+            </div>
+            <p class="text-[11px] text-slate-400 font-mono">ERG 2024 • NIOSH • NOAA CAMEO • OSHA 1910.1200</p>
+          </div>
         </a>
+        <a href="../" class="sm:hidden px-3 py-2 rounded bg-slate-900 border border-slate-700 text-xs font-mono font-bold text-amber-300">🇺🇸 EN</a>
       </div>
+
+      <nav class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <a href="#features" class="px-2.5 py-2 text-xs font-bold text-slate-300 hover:text-white transition">Módulos</a>
+        <a href="#binder-section" class="px-2.5 py-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition">Carpeta OSHA</a>
+        <a href="#pricing" class="px-2.5 py-2 text-xs font-bold text-amber-400 hover:text-amber-300 transition">Planes</a>
+        <a href="#catalog" class="px-2.5 py-2 text-xs font-bold text-slate-300 hover:text-white transition">Catálogo (90)</a>
+        <a href="../" class="hidden sm:inline-flex px-2.5 py-2 rounded bg-slate-900 border border-slate-700 text-xs font-mono font-bold text-amber-300 hover:border-slate-500 transition">🇺🇸 EN</a>
+        <button onclick="installWiserApp()" class="px-3 py-2 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition">
+          📲 Instalar App
+        </button>
+        <a href="../app/" class="px-3.5 py-2 rounded bg-red-600 hover:bg-red-500 text-white font-black text-xs shadow-lg transition">
+          🚨 ABRIR CONSOLA →
+        </a>
+      </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden py-16 lg:py-24 px-4 lg:px-8 border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-      <div class="lg:col-span-7 space-y-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-mono font-bold">
-          <span>🛡️ OPERACIÓN EN PRIMEROS 60 SEGUNDOS — CERO DEPENDENCIA DE SEÑAL CELULAR</span>
+  <!-- Hero Section with Live Interactive ERG 2024 Plume & Telemetry Simulator -->
+  <section class="py-12 lg:py-20 px-4 lg:px-8 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div class="lg:col-span-7 space-y-5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-red-500/15 border border-red-500/40 text-red-300 text-xs font-mono font-bold">
+          <span>🛡️ COMANDO HAZMAT EN 60 SEGUNDOS + CUMPLIMIENTO OSHA 29 CFR 1910.1200</span>
         </div>
-        <h1 class="text-4xl lg:text-6xl font-black tracking-tight text-white leading-[1.08]">
-          Inteligencia Química Táctica, Pluma ERG 2024 y SDS OSHA en una Sola App.
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.06]">
+          Inteligencia Táctica HazMat, Pluma ERG 2024 y Carpetas SDS OSHA.
         </h1>
-        <p class="text-lg text-slate-300 leading-relaxed max-w-2xl">
-          Cuando la Biblioteca Nacional de Medicina (NLM) retiró WISER en 2023, los equipos de primera respuesta y talleres quedaron sin una herramienta rápida y 100% offline. WISER 2.6 Sentinel restaura y supera el estándar con 90 sustancias críticas, cono de dispersión con viento en vivo, matriz de reactividad NOAA CAMEO de 18 reglas y planes FEMA ICS-208.
+        <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+          Reemplazo empresarial y 100% offline del sistema retirado NIH/NLM WISER. Diseñado en Pueblo, CO para Departamentos de Bomberos/HazMat y Talleres Automotrices, Almacenes y Plantas Industriales en el corredor de 120 millas del Sur de Colorado y todo EE. UU.
         </p>
 
-        <div class="flex flex-wrap gap-3 pt-2">
-          <a href="../app/" class="px-6 py-4 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-black text-base shadow-xl shadow-red-600/25 transition flex items-center gap-2">
-            🚨 Abrir Consola Táctica en Vivo
-          </a>
-          <button onclick="installWiserApp()" class="px-6 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/40 font-black text-base transition flex items-center gap-2">
-            📲 Instalar PWA en Tablet / Teléfono
+        <!-- Instant UN# Search Form -->
+        <form action="../app/" method="get" class="flex flex-col sm:flex-row gap-2 max-w-xl pt-1">
+          <input type="text" name="q" placeholder="Buscar UN#, CAS# o Sustancia (ej. 1017, Cloro, Fentanilo, 3480)..." class="w-full bg-slate-950 border-2 border-slate-700 focus:border-amber-500 rounded px-4 py-3 text-sm text-white placeholder-slate-500 font-bold" />
+          <button type="submit" class="px-5 py-3 bg-red-600 hover:bg-red-500 text-white font-black rounded text-xs font-mono uppercase tracking-wider shrink-0">
+            Buscar Sustancia →
           </button>
-          <a href="../app/#plume" onclick="localStorage.setItem('wiser_start_tab','plume')" class="px-5 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-sm transition">
-            🌬️ Calculadora de Pluma ERG 2024
+        </form>
+
+        <div class="flex flex-wrap gap-2.5 pt-1">
+          <a href="../app/" class="px-5 py-3 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm transition">
+            🚨 Abrir Consola Táctica (90 Sustancias)
           </a>
+          <a href="../app/" onclick="localStorage.setItem('wiser_start_tab','binder')" class="px-4 py-3 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm transition">
+            🛡️ Generador Carpeta OSHA y Póster QR
+          </a>
+          <button onclick="installWiserApp()" class="px-4 py-3 rounded bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs sm:text-sm transition">
+            📲 Instalar PWA Offline
+          </button>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
-          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5">
-            <div class="text-2xl font-black text-white font-mono">90</div>
-            <div class="text-xs text-slate-400">Sustancias UN/CAS Verificadas</div>
+        <!-- 4 Telemetry KPI Boxes -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3">
+          <div class="bg-slate-950/90 border border-slate-800 rounded p-3">
+            <div class="text-xl sm:text-2xl font-black text-white font-mono">90</div>
+            <div class="text-[11px] text-slate-400 font-mono">Sustancias UN/CAS</div>
           </div>
-          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5">
-            <div class="text-2xl font-black text-amber-400 font-mono">18 + 25</div>
-            <div class="text-xs text-slate-400">Reglas CAMEO y Segregación</div>
+          <div class="bg-slate-950/90 border border-slate-800 rounded p-3">
+            <div class="text-xl sm:text-2xl font-black text-amber-400 font-mono">18 + 25</div>
+            <div class="text-[11px] text-slate-400 font-mono">Reglas CAMEO y Gabinete</div>
           </div>
-          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5">
-            <div class="text-2xl font-black text-emerald-400 font-mono">100%</div>
-            <div class="text-xs text-slate-400">Operación Offline en Zonas Muertas</div>
+          <div class="bg-slate-950/90 border border-slate-800 rounded p-3">
+            <div class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">0 CDN</div>
+            <div class="text-[11px] text-slate-400 font-mono">100% Caché Offline Local</div>
           </div>
-          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5">
-            <div class="text-2xl font-black text-red-400 font-mono">ICS-208</div>
-            <div class="text-xs text-slate-400">Y Hojas SDS OSHA de 16 Secciones</div>
+          <div class="bg-slate-950/90 border border-slate-800 rounded p-3">
+            <div class="text-xl sm:text-2xl font-black text-red-400 font-mono">ICS-208</div>
+            <div class="text-[11px] text-slate-400 font-mono">+ SDS 16-Secciones + QR</div>
           </div>
         </div>
       </div>
 
-      <!-- Right Preview Card: Live Quick UN# Launcher -->
-      <div class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-5">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+      <!-- Right Column: LIVE INTERACTIVE HERO PLUME & TELEMETRY SIMULATOR -->
+      <div class="lg:col-span-5 bg-slate-950 border-2 border-slate-800 rounded p-5 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
-            <span class="text-[11px] font-mono font-bold text-red-400 uppercase">RECONOCIMIENTO INSTANTÁNEO DE PLACA DOT</span>
-            <h2 class="text-lg font-black text-white">Salto Directo por Número UN/NA</h2>
+            <span class="text-[10px] font-mono font-bold text-amber-400 uppercase">SIMULADOR DE PLUMA ERG 2024 EN VIVO</span>
+            <h2 class="text-base font-black text-white">Cono de Aislamiento y Posición de Unidad</h2>
           </div>
-          <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/50 text-xs font-mono font-bold">v2.6 LIVE</span>
+          <span class="px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-700 text-[10px] font-mono font-bold">TABLE 1 TIH</span>
         </div>
 
-        <form action="../app/" method="get" class="flex gap-2">
-          <input type="text" name="q" placeholder="Ej: 1017, Cloro, Fentanilo, 1203..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-red-500 font-medium" />
-          <button type="submit" class="px-5 py-3 bg-red-600 hover:bg-red-500 text-white font-black rounded-xl text-xs transition shrink-0">
-            Buscar →
-          </button>
-        </form>
-
-        <div class="space-y-2">
-          <div class="text-xs font-bold text-slate-400 uppercase">Accesos Tácticos de Alta Frecuencia:</div>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <a href="../app/?q=1017" class="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition">
-              <span><strong class="text-amber-400 font-mono">UN1017</strong> Chlorine</span>
-              <span class="text-red-400 font-mono">ERG 124</span>
-            </a>
-            <a href="../app/?q=1005" class="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition">
-              <span><strong class="text-amber-400 font-mono">UN1005</strong> Ammonia</span>
-              <span class="text-red-400 font-mono">ERG 125</span>
-            </a>
-            <a href="../app/?q=1075" class="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition">
-              <span><strong class="text-amber-400 font-mono">UN1075</strong> Propane LPG</span>
-              <span class="text-red-400 font-mono">ERG 115</span>
-            </a>
-            <a href="../app/?q=2811" class="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition">
-              <span><strong class="text-amber-400 font-mono">UN2811</strong> Fentanyl</span>
-              <span class="text-red-400 font-mono">ERG 154</span>
-            </a>
-            <a href="../app/?q=1790" class="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition">
-              <span><strong class="text-amber-400 font-mono">UN1790</strong> HF Acid</span>
-              <span class="text-red-400 font-mono">ERG 157</span>
-            </a>
-            <a href="../app/?q=3480" class="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition">
-              <span><strong class="text-amber-400 font-mono">UN3480</strong> Li-Ion EV Pack</span>
-              <span class="text-red-400 font-mono">ERG 147</span>
-            </a>
+        <div class="grid grid-cols-2 gap-2.5 text-xs">
+          <div>
+            <label class="block text-[10px] font-mono uppercase text-slate-400 mb-1">Sustancia TIH / Peligrosa</label>
+            <select id="heroChem" onchange="updateHeroPlume()" class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-2 text-white font-mono text-xs font-bold">
+              <option value="UN1017|Chlorine|124|60|500|0.4|3.5|2.5" selected>UN1017 Chlorine (ERG 124)</option>
+              <option value="UN1005|Anhydrous Ammonia|125|30|150|0.1|0.8|0.6">UN1005 Ammonia (ERG 125)</option>
+              <option value="UN1790|Hydrofluoric Acid|157|30|150|0.1|0.6|0.7">UN1790 HF Acid (ERG 157)</option>
+              <option value="UN1075|Propane LPG BLEVE|115|100|800|0.1|0.8|1.5">UN1075 Propane LPG (ERG 115)</option>
+              <option value="UN2811|Fentanyl HCl Analog|154|25|100|0.1|0.3|9.0">UN2811 Fentanyl (ERG 154)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-mono uppercase text-slate-400 mb-1">Corredor / Viento (<span id="heroWindLbl">270° W</span>)</label>
+            <input id="heroWind" type="range" min="0" max="359" value="270" oninput="updateHeroPlume()" class="w-full accent-amber-500 mt-2" />
           </div>
         </div>
 
-        <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-600/40 text-xs text-amber-200 space-y-1">
-          <div class="font-bold">🎙️ Reconocimiento por Voz + Cabina Visión Nocturna</div>
-          <p class="text-amber-300/80">Diseñado para tabletas MDT en cabina de bomberos y teléfonos de mecánicos sin quitar la vista de la escena.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-slate-900/90 border border-slate-800 rounded p-3">
+          <div id="heroPlumeSvg" class="sm:col-span-6 flex items-center justify-center"></div>
+          <div id="heroPlumeStats" class="sm:col-span-6 space-y-2 text-xs font-mono"></div>
+        </div>
+
+        <div class="flex items-center justify-between pt-1">
+          <span class="text-[11px] font-mono text-slate-400">Corridor: I-25 / US-50 Pueblo–Colorado Springs</span>
+          <a href="../app/" onclick="localStorage.setItem('wiser_start_tab','plume')" class="text-xs font-mono font-bold text-amber-400 hover:text-amber-300">Abrir Pluma con Clima en Vivo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B2B OSHA Facility Binder & QR Wall Poster Showcase -->
+  <section id="binder-section" class="py-14 px-4 lg:px-8 bg-slate-900/60 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-7 space-y-4">
+        <span class="px-2.5 py-1 rounded bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold">OSHA 29 CFR 1910.1200 + IFC CHAPTER 50 COMPLIANCE ENGINE</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">
+          Auditoría Automática N×N de Gabinetes Químicos y Póster QR para Talleres y Almacenes
+        </h2>
+        <p class="text-sm sm:text-base text-slate-300">
+          Las multas de OSHA por falta de carpetas SDS actualizadas o almacenamiento incompatible (ácidos junto a bases/hipoclorito, solventes junto a oxidantes) superan los $16,131 por infracción. WISER 2.6 audita todos los químicos de su taller en 1 clic y genera el registro oficial más el póster QR de Derecho a Saber.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-1">
+          <a href="../app/" onclick="localStorage.setItem('wiser_start_tab','binder')" class="px-5 py-3 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm transition">
+            🛡️ Probar Auditoría de Taller en Vivo →
+          </a>
+          <a href="https://buy.stripe.com/4gM4gs5T59yXcpK7Kx08g0c" target="_blank" rel="noopener" class="px-5 py-3 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm transition">
+            ⚡ Activar Plan Taller OSHA Pro ($29/mes)
+          </a>
+        </div>
+      </div>
+      <div class="lg:col-span-5 bg-slate-950 border border-slate-800 rounded p-5 space-y-3 font-mono text-xs">
+        <div class="flex items-center justify-between text-emerald-400 font-bold border-b border-slate-800 pb-2">
+          <span>SAMPLE AUDIT: AUTO COLLISION SHOP (12 CHEMS)</span>
+          <span>PASS WITH 4 SEGREGATIONS</span>
+        </div>
+        <div class="p-2.5 bg-red-950/40 border border-red-700/50 rounded text-slate-200">
+          <strong class="text-red-400">CRITICAL RULE #1:</strong> UN1791 Hypochlorite × UN1824 Sodium Hydroxide / Acids → <span class="text-amber-300">Separate dedicated corrosive dikes (Cl2 gas hazard)</span>
+        </div>
+        <div class="p-2.5 bg-red-950/40 border border-red-700/50 rounded text-slate-200">
+          <strong class="text-red-400">CRITICAL RULE #2:</strong> UN1090 Acetone / UN1203 Gasoline × UN1072 Oxygen → <span class="text-amber-300">20-ft / 1-hr fire wall per OSHA 1910.253</span>
+        </div>
+        <div class="p-2.5 bg-blue-950/40 border border-blue-700/50 rounded text-slate-200">
+          <strong class="text-blue-300">EV BAY RULE #3:</strong> UN3480 Damaged Li-Ion Pack → <span class="text-emerald-300">Isolate 50 ft outside structure; monitor HF vapor (ERG 147)</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 6 Core Capabilities Grid -->
-  <section id="features" class="py-16 px-4 lg:px-8 max-w-7xl mx-auto space-y-10">
-    <div class="text-center max-w-3xl mx-auto space-y-3">
-      <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs font-mono font-bold text-amber-400">ARCHITECTURE & FIELD CAPABILITIES</span>
-      <h2 class="text-3xl font-black text-white">Dos Misiones Críticas: Respuesta HazMat y Cumplimiento OSHA en Taller</h2>
-      <p class="text-sm text-slate-400">Todas las funciones corren 100% en el navegador sin servidor requerido y con respaldo completo en caché offline.</p>
+  <section id="features" class="py-14 px-4 lg:px-8 max-w-7xl mx-auto space-y-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <span class="text-xs font-mono font-bold text-amber-400 uppercase">DEFENSE & COMMERCIAL CAPABILITY MATRIX</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">6 Motores Determinísticos en una Consola</h2>
+      </div>
+      <span class="text-xs font-mono text-emerald-400">Zero External CDNs • Works 100% in Airplane Mode</span>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3">
-        <div class="text-2xl">🌬️</div>
-        <h3 class="text-lg font-bold text-white">ERG 2024 Wind-Vector Plume Cone</h3>
-        <p class="text-sm text-slate-400">Pulls real-time wind speed and meteorological bearing via Open-Meteo for Pueblo, Colorado Springs, Cañon City, and 8 more corridor hubs (or manual offline sliders) to plot the 360° Hot Zone, Downwind PAD Cone, and Upwind Apparatus Staging vector.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="bg-slate-900/90 border border-slate-800 rounded p-5 space-y-2">
+        <div class="text-xs font-mono font-bold text-amber-400">01 // ERG 2024 + OPEN-METEO</div>
+        <h3 class="text-base font-black text-white">Live Wind-Vector Plume Cone</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">Computes 360° Initial Isolation Hot Zone, Downwind Protective Action Distance (PAD) cone, and Upwind Apparatus Staging bearing across 11 Southern Colorado corridor cities or manual offline wind sliders.</p>
       </div>
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3">
-        <div class="text-2xl">⚡</div>
-        <h3 class="text-lg font-bold text-white">18-Rule NOAA CAMEO Reactivity Matrix</h3>
-        <p class="text-sm text-slate-400">Table-driven binary chemical group evaluator catching Cyanide + Acid (HCN gas), Sulfide + Acid (H2S knockdown), Bleach + Ammonia (Chloramine), Pool Shock + Brake Fluid (delayed 2,000°F fireball), and EV Li-Ion HF vapor off-gassing.</p>
+      <div class="bg-slate-900/90 border border-slate-800 rounded p-5 space-y-2">
+        <div class="text-xs font-mono font-bold text-red-400">02 // NOAA CAMEO MATRIX</div>
+        <h3 class="text-base font-black text-white">18-Rule Binary Reactivity Simulator</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">Classifies all 90 substances into CAMEO functional groups to flag HCN gas, H2S knockdown, Chloramine, Phosgene, Nitric Acid + Organics, and hypergolic Pool Shock + Brake Fluid fireballs.</p>
       </div>
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3">
-        <div class="text-2xl">📋</div>
-        <h3 class="text-lg font-bold text-white">FEMA ICS-208 & OSHA 16-Section SDS</h3>
-        <p class="text-sm text-slate-400">Generate print-ready FEMA ICS-208 HM Site Safety and Control Plans for Incident Command handoff, or print full 16-Section OSHA HazCom 2012 (29 CFR 1910.1200) Safety Data Sheets for auto shop and warehouse inspection binders.</p>
+      <div class="bg-slate-900/90 border border-slate-800 rounded p-5 space-y-2">
+        <div class="text-xs font-mono font-bold text-emerald-400">03 // FEMA NIMS + OSHA GHS</div>
+        <h3 class="text-base font-black text-white">ICS-208 Site Safety Plan & 16-Sec SDS</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">Generates print-ready FEMA ICS-208 HM Site Safety & Control Plans for Incident Command handoff and full 16-Section OSHA HazCom 2012 (29 CFR 1910.1200) Safety Data Sheets.</p>
       </div>
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3">
-        <div class="text-2xl">🧪</div>
-        <h3 class="text-lg font-bold text-white">Unknown Spill Toxidrome Wizard</h3>
-        <p class="text-sm text-slate-400">No placard visible? Filter unknown releases by Odor (bitter almonds, newly mown hay, garlic, rotten eggs, sweet ether), Vapor Color (red-brown NO2, greenish-yellow Cl2), Physical State, and Clinical Symptoms (SLUDGEM, miosis, methemoglobinemia).</p>
+      <div class="bg-slate-900/90 border border-slate-800 rounded p-5 space-y-2">
+        <div class="text-xs font-mono font-bold text-blue-400">04 // TOXIDROME FORENSICS</div>
+        <h3 class="text-base font-black text-white">Unknown Spill Odor & Symptom Wizard</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">Reverse-identifies unplacarded releases by odor (bitter almonds, newly mown hay, garlic, rotten eggs), vapor color (red-brown NO2, green-yellow Cl2), and clinical signs (miosis, SLUDGEM).</p>
       </div>
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3">
-        <div class="text-2xl">🏭</div>
-        <h3 class="text-lg font-bold text-white">25-Rule Warehouse & Shop Segregation</h3>
-        <p class="text-sm text-slate-400">Prevent catastrophic cabinet fires and OSHA citations. Verify storage compatibility across Corrosive Acids, Corrosive Bases, Oxidizers, Flammables, Water-Reactives, Cyanides, Organic Peroxides, Compressed Gases, and Li-Ion battery lockers.</p>
+      <div class="bg-slate-900/90 border border-slate-800 rounded p-5 space-y-2">
+        <div class="text-xs font-mono font-bold text-amber-400">05 // HANDS-FREE CAB OPS</div>
+        <h3 class="text-base font-black text-white">60-Second Voice Recon & Red Night Cab</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">Speak a 4-digit UN placard number hands-free via Web Speech API, listen to the spoken 60-second tactical audio briefing, and toggle Red-Light Night Vision to protect scotopic vision.</p>
       </div>
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-3">
-        <div class="text-2xl">📡</div>
-        <h3 class="text-lg font-bold text-white">Dead-Cell Offline PWA + Red Night Cab</h3>
-        <p class="text-sm text-slate-400">Installs onto iOS, Android, iPad, and Windows MDT tablets. Pre-caches all 90 substances and rules locally so highway responses in US-50 / Royal Gorge / Raton Pass dead zones never stall. Includes 1-click Red-Light Night Vision mode.</p>
+      <div class="bg-slate-900/90 border border-slate-800 rounded p-5 space-y-2">
+        <div class="text-xs font-mono font-bold text-emerald-400">06 // B2B SHOP COMPLIANCE</div>
+        <h3 class="text-base font-black text-white">25-Rule N×N Shop Binder & QR Poster</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">Audits your facility's chemical roster against 25 OSHA/NFPA storage segregation rules and prints a certified Right-to-Know QR Wall Poster for employees and Fire Marshal inspections.</p>
       </div>
     </div>
   </section>
 
-  <!-- Southern Colorado 120-Mile Corridor Coverage -->
-  <section id="corridor" class="py-12 px-4 lg:px-8 bg-slate-900/50 border-y border-slate-800">
-    <div class="max-w-7xl mx-auto space-y-6">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <span class="text-xs font-mono font-bold text-emerald-400 uppercase">PUEBLO HOMED • 120-MILE SOUTHERN COLORADO & FRONT RANGE CORRIDOR</span>
-          <h2 class="text-2xl font-black text-white mt-1">Pre-Programmed Corridor Wind & Plume Sector Presets</h2>
-        </div>
-        <a href="../app/" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition self-start">
-          🛰️ Test Live Corridor Plume Cone →
-        </a>
+  <!-- Commercial & Public Safety Pricing Matrix (Verified Live Stripe Links) -->
+  <section id="pricing" class="py-14 px-4 lg:px-8 bg-slate-900/50 border-y border-slate-800">
+    <div class="max-w-7xl mx-auto space-y-8">
+      <div class="text-center max-w-3xl mx-auto space-y-2">
+        <span class="text-xs font-mono font-bold text-amber-400 uppercase">TRANSPARENT PUBLIC-SAFETY & COMMERCIAL LICENSING</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">Gratis para Bomberos/EMS • Planes Comerciales para Talleres y Flotas</h2>
+        <p class="text-xs sm:text-sm text-slate-400">10%–20% por debajo de plataformas empresariales heredadas como VelocityEHS y Chemwatch, con operación 100% offline inmediata.</p>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Pueblo, CO</strong><span class="text-slate-400">I-25 / US-50 / Evraz Rail</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Pueblo West, CO</strong><span class="text-slate-400">US-50 Industrial Park</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Colorado Springs</strong><span class="text-slate-400">I-25 / US-24 Corridor</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Fountain, CO</strong><span class="text-slate-400">I-25 Freight / BNSF Line</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Cañon City, CO</strong><span class="text-slate-400">US-50 Arkansas Gorge</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Monument & Castle Rock</strong><span class="text-slate-400">Palmer Divide I-25</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Trinidad, CO</strong><span class="text-slate-400">Raton Pass I-25 Tankers</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Walsenburg, CO</strong><span class="text-slate-400">I-25 / US-160 Junction</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">La Junta, CO</strong><span class="text-slate-400">US-50 / BNSF Rail Yard</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">Salida, CO</strong><span class="text-slate-400">US-50 / US-285 Mountain Pass</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">South Denver</strong><span class="text-slate-400">I-25 / C-470 HazMat Route</span></div>
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><strong class="text-white block">100% Offline Manual</strong><span class="text-slate-400">Any Lat/Lon or Compass Bearing</span></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Tier 1: Responder Free -->
+        <div class="bg-slate-950 border border-slate-800 rounded p-6 flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-[10px] font-mono font-bold text-slate-300">PUBLIC SAFETY MISSION</span>
+            <h3 class="text-lg font-black text-white">First Responder & Volunteer Fire/EMS</h3>
+            <div class="text-3xl font-black text-white font-mono">$0 <span class="text-xs font-normal text-slate-400">/ forever</span></div>
+            <p class="text-xs text-slate-400">Unrestricted tactical access for individual firefighters, paramedics, and rural volunteer departments.</p>
+            <ul class="space-y-2 text-xs text-slate-300 pt-2">
+              <li>✓ All 90 UN/CAS Substances & 16-Section SDS</li>
+              <li>✓ Live ERG 2024 Plume Cone & Staging Vector</li>
+              <li>✓ 18-Rule NOAA CAMEO Reactivity Matrix</li>
+              <li>✓ 100% Dead-Cell Offline PWA + Red Night Cab</li>
+              <li>✓ Printable FEMA ICS-208 Site Safety Plan</li>
+            </ul>
+          </div>
+          <a href="../app/" class="w-full py-3 rounded bg-slate-800 hover:bg-slate-700 text-white font-black text-xs font-mono uppercase text-center transition">
+            Abrir Consola Gratis →
+          </a>
+        </div>
+
+        <!-- Tier 2: Shop & Warehouse OSHA Pro ($29/mo) -->
+        <div class="bg-slate-950 border-2 border-amber-500 rounded p-6 flex flex-col justify-between space-y-5 shadow-xl">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-[10px] font-mono font-bold text-amber-300">MOST POPULAR FOR SHOPS</span>
+              <span class="text-[10px] font-mono text-emerald-400">OSHA 1910.1200</span>
+            </div>
+            <h3 class="text-lg font-black text-white">Shop & Warehouse OSHA HazCom Pro</h3>
+            <div class="text-3xl font-black text-amber-400 font-mono">$29 <span class="text-xs font-normal text-slate-400">/ month per facility</span></div>
+            <p class="text-xs text-slate-300">Built for Auto Repair, Collision Centers, Fleet Bays, Ag Co-Ops, and Warehouses across Southern CO & Nationwide.</p>
+            <ul class="space-y-2 text-xs text-slate-200 pt-2">
+              <li>✓ <strong>Automated N×N Cabinet Segregation Audit</strong></li>
+              <li>✓ <strong>Certified OSHA 29 CFR 1910.1200 Chemical Register</strong></li>
+              <li>✓ <strong>Printable Right-to-Know QR Wall Poster</strong></li>
+              <li>✓ Industry Presets (Auto Shop, Warehouse, Water/Pool)</li>
+              <li>✓ Offline Shop Tablet & Employee Phone Access</li>
+            </ul>
+          </div>
+          <a href="https://buy.stripe.com/4gM4gs5T59yXcpK7Kx08g0c" target="_blank" rel="noopener" class="w-full py-3 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs font-mono uppercase text-center transition">
+            Activar Plan Taller ($29/mes) →
+          </a>
+        </div>
+
+        <!-- Tier 3: Premier HazMat Command & Fleet Enterprise ($99/mo) -->
+        <div class="bg-slate-950 border border-red-500/50 rounded p-6 flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <span class="px-2 py-0.5 rounded bg-red-500/20 border border-red-500/40 text-[10px] font-mono font-bold text-red-300">COMMAND & FLEET ENTERPRISE</span>
+            <h3 class="text-lg font-black text-white">Premier HazMat Command & Multi-Site</h3>
+            <div class="text-3xl font-black text-white font-mono">$99 <span class="text-xs font-normal text-slate-400">/ month per dept or fleet</span></div>
+            <p class="text-xs text-slate-400">Multi-apparatus MDT deployment, regional HazMat authorities, and multi-warehouse industrial operators.</p>
+            <ul class="space-y-2 text-xs text-slate-300 pt-2">
+              <li>✓ Unlimited Apparatus MDT & Multi-Bay Seats</li>
+              <li>✓ Custom EPCRA Tier II Facility Pre-Plan Overlays</li>
+              <li>✓ Custom Proprietary SDS & Chemical Onboarding</li>
+              <li>✓ WebMCP Typed AI Agent Tool Surface Access</li>
+              <li>✓ Priority Southern Colorado & National Support</li>
+            </ul>
+          </div>
+          <a href="https://buy.stripe.com/dRm8wIdlxaD12Pa1m908g0d" target="_blank" rel="noopener" class="w-full py-3 rounded bg-red-600 hover:bg-red-500 text-white font-black text-xs font-mono uppercase text-center transition">
+            Activar Comando Premier ($99/mes) →
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Featured Chemical Index Table -->
-  <section id="catalog" class="py-16 px-4 lg:px-8 max-w-7xl mx-auto space-y-6">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+  <section id="catalog" class="py-14 px-4 lg:px-8 max-w-7xl mx-auto space-y-5">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-3">
       <div>
         <span class="text-xs font-mono font-bold text-amber-400 uppercase">VERIFIED ERG 2024 & NIOSH DATABASE</span>
-        <h2 class="text-2xl font-black text-white mt-1">Featured High-Priority Substances (Showing 18 of 90 in App)</h2>
+        <h2 class="text-2xl font-black text-white mt-1">High-Priority Substance Register (16 of 90 Shown)</h2>
       </div>
-      <a href="../app/" class="text-xs font-bold text-red-400 hover:text-red-300">Search All 90 Chemicals in the Tactical App →</a>
+      <a href="../app/" class="text-xs font-mono font-bold text-red-400 hover:text-red-300">Search All 90 Substances in Tactical App →</a>
     </div>
 
-    <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-950">
+    <div class="overflow-x-auto rounded border border-slate-800 bg-slate-950">
       <table class="w-full text-left border-collapse">
         <thead>
-          <tr class="border-b border-slate-800 bg-slate-900/90 text-[11px] font-mono uppercase text-slate-400">
-            <th class="py-3 px-4">UN/NA</th>
-            <th class="py-3 px-4">Substance Name</th>
-            <th class="py-3 px-4">Sector</th>
-            <th class="py-3 px-4">ERG Guide</th>
-            <th class="py-3 px-4">Isolation (Day / Night PAD)</th>
-            <th class="py-3 px-4">Water Rule</th>
-            <th class="py-3 px-4 text-right">Action</th>
+          <tr class="border-b border-slate-800 bg-slate-900 text-[11px] font-mono uppercase text-slate-400">
+            <th class="py-3 px-3">UN/NA</th>
+            <th class="py-3 px-3">Substance Name</th>
+            <th class="py-3 px-3">Sector</th>
+            <th class="py-3 px-3">ERG</th>
+            <th class="py-3 px-3">Isolation (Day / Night PAD)</th>
+            <th class="py-3 px-3">Water Rule</th>
+            <th class="py-3 px-3 text-right">Console</th>
           </tr>
         </thead>
-        <tbody class="text-sm">
+        <tbody class="text-xs sm:text-sm">
           
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN2686</td>
-          <td class="py-3 px-4 font-bold text-white">2-Diethylaminoethanol (Boiler Corrosion Inhibitor)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #132</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">30m / 150m (0.1 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN2686" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN2686</td>
+          <td class="py-3 px-3 font-bold text-white">2-Diethylaminoethanol (Boiler Corrosion Inhibitor)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Industrial</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #132</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">30m / 150m (0.1 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN2686" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1090</td>
-          <td class="py-3 px-4 font-bold text-white">Acetone (Dimethyl Ketone)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Retail/Consumer</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #127</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">50m / 300m (0.0 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1090" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1090</td>
+          <td class="py-3 px-3 font-bold text-white">Acetone (Dimethyl Ketone)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Retail/Consumer</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #127</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">50m / 300m (0.0 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1090" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1648</td>
-          <td class="py-3 px-4 font-bold text-white">Acetonitrile (Methyl Cyanide)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #131</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">50m / 300m (0.2 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1648" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1648</td>
+          <td class="py-3 px-3 font-bold text-white">Acetonitrile (Methyl Cyanide)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Industrial</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #131</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">50m / 300m (0.2 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1648" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1001</td>
-          <td class="py-3 px-4 font-bold text-white">Acetylene, Dissolved</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Automotive</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #116</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">100m / 800m (0.8 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1001" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1001</td>
+          <td class="py-3 px-3 font-bold text-white">Acetylene, Dissolved</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Automotive</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #116</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">100m / 800m (0.8 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1001" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1093</td>
-          <td class="py-3 px-4 font-bold text-white">Acrylonitrile, Stabilized</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #131</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">60m / 400m (1.5 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1093" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1093</td>
+          <td class="py-3 px-3 font-bold text-white">Acrylonitrile, Stabilized</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Industrial</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #131</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">60m / 400m (1.5 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1093" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1987</td>
-          <td class="py-3 px-4 font-bold text-white">Alcohols, N.O.S. (Denatured / Industrial Alcohol Blend)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Retail/Consumer</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #127</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">50m / 300m (0.0 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1987" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1987</td>
+          <td class="py-3 px-3 font-bold text-white">Alcohols, N.O.S. (Denatured / Industrial Alcohol Blend)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Retail/Consumer</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #127</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">50m / 300m (0.0 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1987" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN2672</td>
-          <td class="py-3 px-4 font-bold text-white">Ammonia Solution (10-35% Aqueous Ammonium Hydroxide)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Retail/Consumer</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #154</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">30m / 150m (0.2 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN2672" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN2672</td>
+          <td class="py-3 px-3 font-bold text-white">Ammonia Solution (10-35% Aqueous Ammonium Hydroxide)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Retail/Consumer</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #154</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">30m / 150m (0.2 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN2672" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1005</td>
-          <td class="py-3 px-4 font-bold text-white">Ammonia, Anhydrous</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #125</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">30m / 300m (3.7 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1005" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1005</td>
+          <td class="py-3 px-3 font-bold text-white">Ammonia, Anhydrous</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Industrial</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #125</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">30m / 300m (3.7 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1005" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1942</td>
-          <td class="py-3 px-4 font-bold text-white">Ammonium Nitrate (Fertilizer / Technical Grade)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Warehouse</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #140</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">50m / 800m (1.6 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1942" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1942</td>
+          <td class="py-3 px-3 font-bold text-white">Ammonium Nitrate (Fertilizer / Technical Grade)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Warehouse</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #140</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">50m / 800m (1.6 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1942" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN2814</td>
-          <td class="py-3 px-4 font-bold text-white">Anthrax Spores (Bacillus anthracis - Infectious Substance)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">CBRN/Warfare</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #158</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">50m / 200m (0.3 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN2814" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN2814</td>
+          <td class="py-3 px-3 font-bold text-white">Anthrax Spores (Bacillus anthracis - Infectious Substance)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">CBRN/Warfare</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #158</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">50m / 200m (0.3 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN2814" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN3082</td>
-          <td class="py-3 px-4 font-bold text-white">Antifreeze / Engine Coolant (Ethylene Glycol)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Automotive</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #171</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">25m / 100m (0.0 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN3082" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN3082</td>
+          <td class="py-3 px-3 font-bold text-white">Antifreeze / Engine Coolant (Ethylene Glycol)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Automotive</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #171</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">25m / 100m (0.0 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN3082" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1951</td>
-          <td class="py-3 px-4 font-bold text-white">Argon, Refrigerated Liquid</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #120</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">25m / 100m (0.1 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1951" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1951</td>
+          <td class="py-3 px-3 font-bold text-white">Argon, Refrigerated Liquid</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Industrial</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #120</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">25m / 100m (0.1 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1951" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1114</td>
-          <td class="py-3 px-4 font-bold text-white">Benzene</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #130</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">50m / 300m (0.3 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1114" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1114</td>
+          <td class="py-3 px-3 font-bold text-white">Benzene</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Industrial</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #130</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">50m / 300m (0.3 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1114" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1008</td>
-          <td class="py-3 px-4 font-bold text-white">Boron Trifluoride</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #125</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">100m / 600m (4.9 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-700 text-[10px] font-bold">💧 NO WATER</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1008" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1008</td>
+          <td class="py-3 px-3 font-bold text-white">Boron Trifluoride</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Industrial</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #125</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">100m / 600m (4.9 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-700 text-[10px] font-mono font-bold">NO WATER</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1008" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1897</td>
-          <td class="py-3 px-4 font-bold text-white">Brake Cleaner (Tetrachloroethylene)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Automotive</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #160</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">30m / 100m (0.5 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1897" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN1897</td>
+          <td class="py-3 px-3 font-bold text-white">Brake Cleaner (Tetrachloroethylene)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Automotive</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #160</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">30m / 100m (0.5 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN1897" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN0002</td>
-          <td class="py-3 px-4 font-bold text-white">Brake Fluid (DOT 3 / DOT 4 Polyglycol Ether)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Automotive</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #128</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">15m / 50m (0.0 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">Standard</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN0002" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
-            </a>
-          </td>
-        </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1402</td>
-          <td class="py-3 px-4 font-bold text-white">Calcium Carbide</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Industrial</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #138</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">50m / 200m (0.0 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-700 text-[10px] font-bold">💧 NO WATER</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1402" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
-            </a>
-          </td>
-        </tr>
-        <tr class="border-b border-slate-800/80 hover:bg-slate-900/80 transition">
-          <td class="py-3 px-4 font-mono font-bold text-amber-400">UN1748</td>
-          <td class="py-3 px-4 font-bold text-white">Calcium Hypochlorite, Dry (Pool Shock)</td>
-          <td class="py-3 px-4 text-xs text-slate-300">Retail/Consumer</td>
-          <td class="py-3 px-4 font-mono text-xs text-red-300">Guide #140</td>
-          <td class="py-3 px-4 font-mono text-xs text-emerald-300">25m / 100m (0.2 km)</td>
-          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-700 text-[10px] font-bold">💧 NO WATER</span></td>
-          <td class="py-3 px-4 text-right">
-            <a href="../app/?q=UN1748" class="px-3 py-1.5 rounded-lg bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold transition">
-              Abrir SDS / Pluma →
+        <tr class="border-b border-slate-800/80 hover:bg-slate-900/90 transition">
+          <td class="py-3 px-3 font-mono font-bold text-amber-400">UN0002</td>
+          <td class="py-3 px-3 font-bold text-white">Brake Fluid (DOT 3 / DOT 4 Polyglycol Ether)</td>
+          <td class="py-3 px-3 text-xs text-slate-300">Automotive</td>
+          <td class="py-3 px-3 font-mono text-xs text-red-400">ERG #128</td>
+          <td class="py-3 px-3 font-mono text-xs text-emerald-300">15m / 50m (0.0 km)</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 text-[10px] font-mono">STD FOG</span></td>
+          <td class="py-3 px-3 text-right">
+            <a href="../app/?q=UN0002" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-mono font-bold transition inline-block">
+              SDS / Pluma →
             </a>
           </td>
         </tr>
@@ -493,17 +559,72 @@
   <footer class="border-t border-slate-800 bg-[#04070d] py-10 px-4 lg:px-8 text-xs text-slate-400">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
       <div class="space-y-1">
-        <div class="font-black text-white text-sm">WISER 2.6: Ultimate HazMat, Plume, CAMEO Reactivity & SDS Sentinel</div>
-        <p>Built in Pueblo, CO for Southern Colorado & National First Responders, Auto Shops, and Industrial Warehouses.</p>
-        <p class="text-slate-500">Data grounded in DOT PHMSA 2024 Emergency Response Guidebook (ERG), NIOSH Pocket Guide, NOAA CAMEO, and OSHA 29 CFR 1910.1200.</p>
+        <div class="font-black text-white text-sm font-mono">WISER 2.6 SENTINEL // DEFENSE & OSHA HAZMAT COMMAND</div>
+        <p>Homed in Pueblo, CO • Serving the 120-mile Southern Colorado Front Range Corridor (Pueblo, Colorado Springs, Cañon City, Fountain, Monument, Castle Rock, South Denver, Salida, Walsenburg, Trinidad, La Junta) & Nationwide.</p>
+        <p class="text-slate-500">Grounded in DOT PHMSA 2024 ERG, NIOSH Pocket Guide, NOAA CAMEO, and OSHA 29 CFR 1910.1200.</p>
       </div>
-      <div class="flex flex-wrap gap-4 font-bold text-slate-300">
-        <a href="../app/" class="hover:text-white">Launch App</a>
-        <a href="../" class="hover:text-white">🇺🇸 English</a>
-        <a href="../api/tools.json" class="hover:text-white">WebMCP API</a>
-        <a href="../llms.txt" class="hover:text-white">llms.txt</a>
+      <div class="flex flex-wrap gap-3 font-mono font-bold text-slate-300">
+        <a href="../app/" class="px-2.5 py-2 hover:text-white">Tactical App</a>
+        <a href="#pricing" class="px-2.5 py-2 hover:text-white">Pricing</a>
+        <a href="../" class="px-2.5 py-2 hover:text-white">🇺🇸 EN</a>
+        <a href="../api/tools.json" class="px-2.5 py-2 hover:text-white">WebMCP JSON</a>
+        <a href="../llms.txt" class="px-2.5 py-2 hover:text-white">llms.txt</a>
       </div>
     </div>
   </footer>
+
+  <!-- Interactive Hero Plume Simulator Script -->
+  <script>
+    function updateHeroPlume() {
+      const sel = document.getElementById('heroChem');
+      const windInp = document.getElementById('heroWind');
+      if (!sel || !windInp) return;
+      const [un, name, erg, isoS, isoL, padS, padL, vd] = sel.value.split('|');
+      const wFrom = Number(windInp.value || 270);
+      const downDeg = (wFrom + 180) % 360;
+      const cards = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+      const wCard = cards[Math.round(wFrom / 22.5) % 16];
+      const dCard = cards[Math.round(downDeg / 22.5) % 16];
+      document.getElementById('heroWindLbl').textContent = `${wFrom}° ${wCard}`;
+
+      const rad = (a) => (a - 90) * Math.PI / 180;
+      const cx = 110, cy = 110, rCone = 88, half = 18;
+      const x1 = cx + rCone * Math.cos(rad(downDeg - half));
+      const y1 = cy + rCone * Math.sin(rad(downDeg - half));
+      const x2 = cx + rCone * Math.cos(rad(downDeg + half));
+      const y2 = cy + rCone * Math.sin(rad(downDeg + half));
+      const sx = cx + 62 * Math.cos(rad(wFrom));
+      const sy = cy + 62 * Math.sin(rad(wFrom));
+
+      document.getElementById('heroPlumeSvg').innerHTML = `
+        <svg viewBox="0 0 220 220" class="w-44 h-44">
+          <circle cx="110" cy="110" r="96" fill="#060a12" stroke="#1e293b" stroke-width="1.5"/>
+          <circle cx="110" cy="110" r="64" fill="none" stroke="#1e293b" stroke-dasharray="3 3"/>
+          <text x="110" y="14" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">N</text>
+          <text x="206" y="113" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">E</text>
+          <text x="110" y="213" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">S</text>
+          <text x="14" y="113" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">W</text>
+          <path d="M ${cx} ${cy} L ${x1.toFixed(1)} ${y1.toFixed(1)} A ${rCone} ${rCone} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)} Z" fill="rgba(245,158,11,0.28)" stroke="#f59e0b" stroke-width="2"/>
+          <circle cx="110" cy="110" r="24" fill="rgba(239,68,68,0.35)" stroke="#ef4444" stroke-width="2"/>
+          <circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="7" fill="#10b981" stroke="#ffffff" stroke-width="1.5"/>
+        </svg>
+      `;
+      document.getElementById('heroPlumeStats').innerHTML = `
+        <div class="p-2 rounded bg-red-950/50 border border-red-700/50">
+          <div class="text-[10px] text-red-300">HOT ZONE (360° ISOLATION)</div>
+          <div class="text-sm font-black text-white">${isoL} m (${Math.round(isoL*3.28084)} ft)</div>
+        </div>
+        <div class="p-2 rounded bg-amber-950/50 border border-amber-700/50">
+          <div class="text-[10px] text-amber-300">DOWNWIND PAD CONE (→ ${downDeg}° ${dCard})</div>
+          <div class="text-sm font-black text-white">${padL} km (${(padL*0.621371).toFixed(2)} mi)</div>
+        </div>
+        <div class="p-2 rounded bg-emerald-950/50 border border-emerald-700/50">
+          <div class="text-[10px] text-emerald-300">UPWIND STAGING VECTOR</div>
+          <div class="text-xs font-black text-white">Stage @ ${wFrom}° (${wCard}) • VD=${vd}</div>
+        </div>
+      `;
+    }
+    window.addEventListener('DOMContentLoaded', updateHeroPlume);
+  </script>
 </body>
 </html>

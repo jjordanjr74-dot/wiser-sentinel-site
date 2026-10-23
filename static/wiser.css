@@ -1,0 +1,65 @@
+
+/* === WISER 2.6 PREMIER DEFENSE-GRADE COMMAND HUD OVERRIDES === */
+:root {
+  --rad: 4px;
+}
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #060911;
+  color: #f1f5f9;
+  overflow-x: hidden;
+}
+.mono, .font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+/* Crisp Palantir/Anduril 4px technical geometry instead of toy bubble radii */
+.rounded-3xl, .rounded-2xl, .rounded-xl {
+  border-radius: 4px !important;
+}
+.rounded-lg {
+  border-radius: 3px !important;
+}
+.rounded-full {
+  border-radius: 3px !important;
+}
+/* Tactical grid backdrop */
+.tactical-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(30, 41, 59, 0.28) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 41, 59, 0.28) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+/* Minimum 44px touch target floor for gloved first responders & mobile audit */
+nav a, nav button, header a, header button, .tab-btn, .cat-pill, .tactical-cta {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.nfpa-diamond {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  transform: rotate(45deg);
+  border: 3px solid #0f172a;
+}
+.nfpa-box {
+  position: absolute;
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.15rem;
+}
+.nfpa-text { transform: rotate(-45deg); }
+/* Red-Light Night Vision Cab Mode */
+body.night-vision-cab {
+  filter: sepia(100%) hue-rotate(310deg) saturate(380%) brightness(0.82) contrast(1.22);
+  background-color: #050000 !important;
+}
+@media print {
+  body { background: #ffffff !important; color: #000000 !important; filter: none !important; }
+  .no-print, header, nav { display: none !important; }
+  .print-only { display: block !important; }
+}
