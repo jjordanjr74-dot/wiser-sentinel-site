@@ -5,6 +5,18 @@
   "offline_snapshot_url": "/static/offline_db.json",
   "tools": [
     {
+      "name": "scan_spill_container_label_sds",
+      "description": "Optical spill, container & label scanner that identifies both the exact commercial manufacturer and the manufacturer-specific 16-section OSHA SDS (SKU/Part#, CHEMTREC contract hotline, exact % wt CAS formulation, and spill neutralization protocol).",
+      "endpoint": "/api/vision/scan",
+      "method": "POST",
+      "parameters": {
+        "ocr_text": "Visible label text, manufacturer name, brand, SKU/Part#, UN/DOT placard, or barcode",
+        "spill_appearance": "Visual appearance of the spill pool, vapor cloud, color, or reaction on concrete",
+        "container_hint": "Container shape, material, or color profile",
+        "dominant_colors": "Dominant RGB/HSV chromatic tags extracted from the camera frame"
+      }
+    },
+    {
       "name": "search_hazmat_chemicals",
       "description": "Search 62+ hazardous chemicals by Name, UN/NA 4-digit placard number, CAS number, synonym, or category (Automotive, Retail/Consumer, Industrial, Warehouse, CBRN/Warfare).",
       "method": "GET",

@@ -127,6 +127,159 @@
     return {chemical: chem, sds_sections};
   }
 
+
+  function buildManufacturerSdsPayload(db, msdsId) {
+    const msdsList = db.manufacturer_sds || [];
+    const msds = msdsList.find(m => m.id === Number(msdsId)) || msdsList[0];
+    const base = buildSdsPayload(db, msds ? msds.chemical_id : 1);
+    const chem = base.chemical;
+    if (!msds) return base;
+    const fp = chem.flash_point_c !== null && chem.flash_point_c !== undefined ? `${chem.flash_point_c} °C` : 'Non-Flammable / Not Applicable';
+    const bp = chem.boiling_point_c !== null && chem.boiling_point_c !== undefined ? `${chem.boiling_point_c} °C` : 'Decomposes / Solid';
+    const sds_sections = [
+      {section: 1, title: "Identification (Manufacturer & Product Specific)", content: `Manufacturer: ${msds.manufacturer} (${msds.hq_location})\nCommercial Brand / Product: ${msds.brand_product_name}\nManufacturer SKU / Part Numbers: ${msds.sku_part_numbers}\nUPC / Barcode: ${msds.upc_code || 'N/A'}\nSDS Document ID: ${msds.sds_doc_code} (Rev: ${msds.sds_revision_date})\n24/7 Emergency Hotline: ${msds.emergency_hotline}\nUN/DOT Number: UN${chem.un_number} | CAS: ${chem.cas_number}`},
+      {section: 2, title: "Hazard(s) Identification", content: `GHS Signal Word: ${chem.ghs_signal_word}\nDOT / GHS Classification: ${chem.hazard_class}\nNFPA 704 Diamond: Health=${chem.nfpa_health}, Flammability=${chem.nfpa_flammability}, Instability=${chem.nfpa_instability}, Special=${chem.nfpa_special || 'None'}\nContainer Signature: ${msds.container_profile}`},
+      {section: 3, title: "Composition / Exact Manufacturer Formulation", content: `Manufacturer Declared Ingredients (% wt & CAS):\n${msds.formulation_ingredients}\nChemical Family / Synonyms: ${chem.synonyms}`},
+      {section: 4, title: "First-Aid Measures & Manufacturer Medical Notes", content: `Manufacturer Clinical Protocol: ${msds.manufacturer_first_aid_notes}\nStandard First Aid: ${chem.first_aid}\nAcute Symptoms: ${chem.symptoms}\nSpecific Antidote: ${chem.antidote}`},
+      {section: 5, title: "Fire-Fighting Measures", content: `Flash Point: ${fp} | ERG 2024 Guide #${chem.erg_guide}\nWater Reactive: ${chem.water_reactive ? 'YES - DO NOT USE WATER DIRECTLY' : 'No (Water fog permissible per guide)'}\nTactical Suppression: ${chem.fire_response}`},
+      {section: 6, title: "Accidental Release & Manufacturer Spill Protocol", content: `Manufacturer-Specific Spill & Sorbent Directive: ${msds.manufacturer_spill_protocol}\nVisual Spill Signature: ${msds.spill_visual_signature}\nERG Initial Isolation (Small/Day): ${chem.iso_small_day_m} m | Large/Night: ${chem.iso_large_night_m} m (${chem.iso_large_night_km} km downwind)\nRequired PPE: ${chem.ppe_level}`},
+      {section: 7, title: "Handling and Storage", content: `Storage Segregation Class: ${chem.storage_class}\nPackaging / Container Profile: ${msds.container_profile}\nRequired Temperature: ${chem.storage_temp}\nIncompatibilities: ${chem.storage_incompatibilities}`},
+      {section: 8, title: "Exposure Controls / Personal Protection", content: `OSHA PEL: ${chem.osha_pel} | NIOSH REL: ${chem.niosh_rel} | IDLH: ${chem.idlh_level}\nRespiratory Protection: ${chem.respirator_req}\nPPE Level: ${chem.ppe_level}`},
+      {section: 9, title: "Physical and Chemical Properties", content: `Physical State: ${chem.physical_state} | Color: ${chem.color}\nOdor: ${chem.odor}\nSpill Visual Signature: ${msds.spill_visual_signature}\nBoiling Point: ${bp} | Flash Point: ${fp}\nRelative Density: ${chem.relative_density} | Vapor Density: ${chem.vapor_density || 'N/A'}`},
+      {section: 10, title: "Stability and Reactivity", content: `NFPA Instability: ${chem.nfpa_instability} | Water Reactive: ${chem.water_reactive ? 'VIOLENT' : 'Stable'}\nIncompatibilities: ${chem.reactivity}`},
+      {section: 11, title: "Toxicological Information", content: `Target Organ & Acute Effects: ${chem.symptoms}\nIDLH Ceiling: ${chem.idlh_level}\nManufacturer Physician Notes: ${msds.manufacturer_first_aid_notes}`},
+      {section: 12, title: "Ecological Information", content: "Prevent entry into storm sewers, floor drains, basements, or waterways. Dike all runoff for hazardous waste recovery."},
+      {section: 13, title: "Disposal Considerations", content: `Dispose of via licensed RCRA Hazardous Waste contractor (40 CFR 261). Reference Manufacturer SDS ${msds.sds_doc_code}.`},
+      {section: 14, title: "Transport Information", content: `UN/DOT Number: UN${chem.un_number} | Hazard Class: ${chem.hazard_class} | ERG 2024 Guide #${chem.erg_guide}`},
+      {section: 15, title: "Regulatory Information", content: `OSHA 29 CFR 1910.1200 HazCom 2012 Compliant Manufacturer SDS (${msds.sds_doc_code}). Signal Word: ${chem.ghs_signal_word}.`},
+      {section: 16, title: "Manufacturer Document Verification & Hotline", content: `Manufacturer: ${msds.manufacturer} (${msds.hq_location})\nEmergency Hotline: ${msds.emergency_hotline}\nOfficial SDS Source: ${msds.official_sds_url}\nRevision Date: ${msds.sds_revision_date}`}
+    ];
+    return {msds_id: msds.id, manufacturer_sds: msds, chemical: chem, sds_sections};
+  }
+
+  function scoreVisionCandidatesLocal(db, ocrText, spillApp, containerHint, domColors, sector) {
+    const msdsRows = db.manufacturer_sds || [];
+    const blobIn = `${ocrText || ''} ${spillApp || ''} ${containerHint || ''} ${domColors || ''} ${sector || ''}`.toLowerCase().trim();
+    const tokens = blobIn.split(/[^a-z0-9-]+/).filter(t => t.length >= 2);
+    const scored = [];
+
+    for (const m of msdsRows) {
+      const chem = db.chemicals.find(c => c.id === m.chemical_id);
+      if (!chem) continue;
+      let score = 0;
+      const evidence = [];
+
+      const skus = (m.sku_part_numbers || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+      for (const sku of skus) {
+        if (sku.length >= 3 && blobIn.includes(sku)) {
+          score += 65;
+          evidence.push(`Exact Manufacturer SKU/Part# Match: ${sku.toUpperCase()}`);
+        }
+      }
+      if (m.upc_code && blobIn.includes(m.upc_code.toLowerCase())) {
+        score += 65;
+        evidence.push(`Exact UPC Barcode Match: ${m.upc_code}`);
+      }
+      const mfgWords = (m.manufacturer || '').toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length >= 3 && !['inc','llc','corp','company','corporation','the','and','global','products'].includes(w));
+      for (const mw of mfgWords) {
+        if (blobIn.includes(mw)) {
+          score += 42;
+          evidence.push(`Manufacturer Identified on Label: ${m.manufacturer} ('${mw}')`);
+          break;
+        }
+      }
+      const kws = (m.label_keywords || '').split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (kw.length >= 3 && blobIn.includes(kw)) {
+          score += (kw.length >= 5 ? 38 : 24);
+          evidence.push(`Label / Product Keyword Match: '${kw}'`);
+        }
+      }
+      const unStr = String(m.un_number).toLowerCase();
+      if (blobIn.includes(`un${unStr}`) || blobIn.includes(`un ${unStr}`) || tokens.includes(unStr)) {
+        score += 48;
+        evidence.push(`DOT/UN Placard Number Match: UN${m.un_number}`);
+      }
+      if (chem.cas_number && blobIn.includes(chem.cas_number.toLowerCase())) {
+        score += 48;
+        evidence.push(`CAS Registry Number Match: ${chem.cas_number}`);
+      }
+      const spillSigLow = `${m.spill_visual_signature} ${m.chromatic_tags} ${chem.color || ''} ${chem.odor || ''}`.toLowerCase();
+      const visualRules = [
+        ['fluorescent', 45, 'Fluorescent Green/Yellow Glycol Spill Signature'],
+        ['neon', 40, 'Neon Yellow-Green Coolant Spill Signature'],
+        ['chartreuse', 42, 'Chartreuse Viscous Spill Pool'],
+        ['greenish-yellow', 42, 'Greenish-Yellow Chlorine/Hypochlorite Signature'],
+        ['reddish-brown', 46, 'Reddish-Brown Fuming NO2 / RFNA Vapor Cloud'],
+        ['rust-orange', 44, 'Rust-Orange Fuming Nitric Acid Plume'],
+        ['fizzes', 35, 'Acid Fizzing / Boiling on Concrete Reaction'],
+        ['bubbling', 35, 'Corrosive Acid Concrete Reaction'],
+        ['etching', 38, 'Silica/Glass Etching Hydrofluoric Acid Signature'],
+        ['white-smoke', 36, 'White Venting Lithium-Ion Electrolyte Plume'],
+        ['sweet chloroform', 38, 'Chlorinated Solvent (Perchloroethylene) Odor/Pool'],
+        ['blue-green', 40, 'Dark Blue-Green Dyed Paraquat Alert Signature'],
+        ['white-crystals', 36, 'Crystalline White Urea DEF Evaporative Crust'],
+        ['white-powder', 34, 'Granular White Oxidizer Spill Signature'],
+        ['iridescent', 32, 'Hydrocarbon Iridescent Film Signature']
+      ];
+      for (const [phrase, pts, lbl] of visualRules) {
+        if (blobIn.includes(phrase) && spillSigLow.includes(phrase)) {
+          score += pts;
+          evidence.push(`Visual Spill Forensics: ${lbl}`);
+        }
+      }
+      for (const tok of tokens) {
+        if (tok.length >= 4 && evidence.length < 6) {
+          if ((m.container_profile || '').toLowerCase().includes(tok)) {
+            score += 12;
+            evidence.push(`Container Morphology Match: '${tok}'`);
+          } else if (spillSigLow.includes(tok)) {
+            score += 10;
+            evidence.push(`Spill Chromatic/Physical Clue: '${tok}'`);
+          }
+        }
+      }
+      if (score > 0) {
+        const uniqEv = Array.from(new Set(evidence)).slice(0, 6);
+        const conf = Math.min(99, Math.max(45, Math.floor(40 + score * 0.48)));
+        scored.push({msds_id: m.id, confidence_pct: conf, raw_score: score, manufacturer_sds: m, chemical: chem, evidence_chain: uniqEv});
+      }
+    }
+    scored.sort((a, b) => b.raw_score - a.raw_score);
+    if (!scored.length && msdsRows.length) {
+      const m0 = msdsRows[0];
+      const c0 = db.chemicals.find(c => c.id === m0.chemical_id) || db.chemicals[0];
+      scored.push({msds_id: m0.id, confidence_pct: 55, raw_score: 20, manufacturer_sds: m0, chemical: c0, evidence_chain: ['Default baseline candidate (add label text, UN#, or spill appearance to refine)']});
+    }
+    const top = scored[0];
+    const fullTop = buildManufacturerSdsPayload(db, top.msds_id);
+    const sameBrands = msdsRows.filter(r => r.chemical_id === fullTop.chemical.id).map(r => ({
+      msds_id: r.id, manufacturer: r.manufacturer, brand_product_name: r.brand_product_name,
+      sku_part_numbers: r.sku_part_numbers, sds_doc_code: r.sds_doc_code, emergency_hotline: r.emergency_hotline
+    }));
+    return {
+      status: 'IDENTIFIED',
+      matched_count: scored.length,
+      top_match: {
+        msds_id: top.msds_id,
+        confidence_pct: top.confidence_pct,
+        evidence_chain: top.evidence_chain,
+        manufacturer_sds: top.manufacturer_sds,
+        chemical: fullTop.chemical,
+        sds_sections: fullTop.sds_sections,
+        alternate_manufacturers: sameBrands
+      },
+      candidates: scored.slice(0, 6).map(s => ({
+        msds_id: s.msds_id, confidence_pct: s.confidence_pct,
+        manufacturer: s.manufacturer_sds.manufacturer, brand_product_name: s.manufacturer_sds.brand_product_name,
+        sku_part_numbers: s.manufacturer_sds.sku_part_numbers, sds_doc_code: s.manufacturer_sds.sds_doc_code,
+        emergency_hotline: s.manufacturer_sds.emergency_hotline, un_number: s.chemical.un_number,
+        chemical_id: s.chemical.id, chemical_name: s.chemical.name, erg_guide: s.chemical.erg_guide,
+        evidence_chain: s.evidence_chain
+      }))
+    };
+  }
+
   function evaluateReactivityLocal(db, id1, id2) {
     const c1 = db.chemicals.find(c => c.id === Number(id1)) || db.chemicals[0];
     const c2 = db.chemicals.find(c => c.id === Number(id2)) || db.chemicals[1];
@@ -251,7 +404,7 @@
     };
   }
 
-  async function handleLocalApi(urlStr) {
+  async function handleLocalApi(urlStr, init) {
     const db = await loadLocalDb();
     const u = new URL(urlStr, window.location.origin);
     const path = u.pathname.replace(/^\/wiser-sentinel-site/, '');
@@ -396,6 +549,44 @@
         action_required: "Segregate in separate spill trays and verify Section 7 SDS."
       };
     }
+    if (path === '/api/manufacturer-sds') {
+      const q = (params.get('q') || '').trim().toLowerCase();
+      const cid = Number(params.get('chem_id') || 0);
+      let rows = db.manufacturer_sds || [];
+      if (cid > 0) rows = rows.filter(r => r.chemical_id === cid);
+      if (q) {
+        rows = rows.filter(r =>
+          (r.manufacturer || '').toLowerCase().includes(q) ||
+          (r.brand_product_name || '').toLowerCase().includes(q) ||
+          (r.sku_part_numbers || '').toLowerCase().includes(q) ||
+          (r.un_number || '').toLowerCase().includes(q) ||
+          (r.label_keywords || '').toLowerCase().includes(q)
+        );
+      }
+      return {count: rows.length, manufacturer_sds: rows};
+    }
+    if (path.startsWith('/api/manufacturer-sds/')) {
+      const id = Number(path.split('/').pop());
+      return buildManufacturerSdsPayload(db, id);
+    }
+    if (path === '/api/vision/scan') {
+      let ocr = params.get('q') || '';
+      let spill = params.get('spill') || '';
+      let cont = params.get('container') || '';
+      let cols = params.get('colors') || '';
+      let sec = params.get('sector') || '';
+      if (init && init.body && typeof init.body === 'string') {
+        try {
+          const b = JSON.parse(init.body);
+          ocr = b.ocr_text || b.q || ocr;
+          spill = b.spill_appearance || b.spill || spill;
+          cont = b.container_hint || b.container || cont;
+          cols = b.dominant_colors || b.colors || cols;
+          sec = b.sector || sec;
+        } catch (e) {}
+      }
+      return scoreVisionCandidatesLocal(db, ocr, spill, cont, cols, sec);
+    }
     if (path === '/api/reactivity') {
       return evaluateReactivityLocal(db, params.get('id1'), params.get('id2'));
     }
@@ -409,7 +600,7 @@
     const isApiCall = urlStr.includes('/api/') && !urlStr.endsWith('/api/tools.json');
 
     if (isApiCall && isStaticHost) {
-      const payload = await handleLocalApi(urlStr);
+      const payload = await handleLocalApi(urlStr, init);
       if (payload !== null) {
         return new Response(JSON.stringify(payload), {status: 200, headers: {'Content-Type': 'application/json'}});
       }
@@ -419,7 +610,7 @@
       const res = await window.__origFetch(input, init);
       if (res && res.ok) return res;
       if (isApiCall) {
-        const payload = await handleLocalApi(urlStr);
+        const payload = await handleLocalApi(urlStr, init);
         if (payload !== null) {
           return new Response(JSON.stringify(payload), {status: 200, headers: {'Content-Type': 'application/json'}});
         }
@@ -427,7 +618,7 @@
       return res;
     } catch (err) {
       if (isApiCall) {
-        const payload = await handleLocalApi(urlStr);
+        const payload = await handleLocalApi(urlStr, init);
         if (payload !== null) {
           return new Response(JSON.stringify(payload), {status: 200, headers: {'Content-Type': 'application/json'}});
         }
