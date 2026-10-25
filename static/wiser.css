@@ -63,3 +63,12 @@ body.night-vision-cab {
   .no-print, header, nav { display: none !important; }
   .print-only { display: block !important; }
 }
+
+
+/* Optical Spill & Manufacturer SDS Scanner Utilities */
+.bg-cyan-500{background-color:#06b6d4}.hover\:bg-cyan-400:hover{background-color:#22d3ee}
+.bg-cyan-500\/20{background-color:rgba(6,182,212,0.2)}.bg-cyan-950\/60{background-color:rgba(8,51,68,0.6)}
+.bg-cyan-950\/80{background-color:rgba(8,51,68,0.8)}.bg-cyan-950\/40{background-color:rgba(8,51,68,0.4)}
+.text-cyan-200{color:#a5f3fc}.text-cyan-300{color:#67e8f9}.text-cyan-400{color:#22d3ee}
+.border-cyan-500\/40{border-color:rgba(6,182,212,0.4)}.border-cyan-500\/50{border-color:rgba(6,182,212,0.5)}
+.border-emerald-500\/60{border-color:rgba(16,185,129,0.6)}
