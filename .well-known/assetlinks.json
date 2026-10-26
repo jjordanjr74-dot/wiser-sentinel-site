@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.jjordanjr74dot.wiser",
+      "sha256_cert_fingerprints": [
+        "CD:47:1F:2E:88:53:B8:F0:D8:37:DC:C3:6E:86:F9:CD:11:BB:F5:09:B6:BD:F4:DD:0C:D6:40:81:FC:5B:DB:14"
+      ]
+    }
+  }
+]

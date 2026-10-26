@@ -1,25 +1,44 @@
 {
+  "id": "/wiser-sentinel-site/app/",
   "name": "WISER 2.6 Ultimate HazMat & SDS Sentinel",
   "short_name": "WISER 2.6",
-  "description": "Offline-First Apparatus Tactical HazMat, ERG 2024 Plume Cone, CAMEO Reactivity, OSHA 16-Section SDS & FEMA ICS-208 Sentinel",
-  "start_url": "./app/",
-  "scope": "./",
+  "description": "Offline-ready ERG 2024, AI photo spill/container/label identifier, manufacturer SDS lookup, and plume modeling.",
+  "start_url": "/wiser-sentinel-site/app/",
+  "scope": "/wiser-sentinel-site/",
   "display": "standalone",
-  "background_color": "#060a12",
-  "theme_color": "#dc2626",
-  "orientation": "any",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait",
+  "background_color": "#0a0e17",
+  "theme_color": "#f59e0b",
+  "lang": "en-US",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "./static/icon-192.png",
+      "src": "/wiser-sentinel-site/static/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "./static/icon-512.png",
+      "src": "/wiser-sentinel-site/static/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/wiser-sentinel-site/static/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/wiser-sentinel-site/static/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
